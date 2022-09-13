@@ -184,12 +184,27 @@ Programming}\label{homework-dynamic-programming}}
     Q^\pi(s, a) \leftarrow \sum_{s', r} p(s', r| s, a)\left[r + \gamma \sum_{a'}\pi(a|s)Q^\pi(s', a')\right]
   \end{equation}
 \item
-  hello world.
+
+  The policy improvement step of the policy iteration algorithm can be rewritten in terms of
+  $Q^\pi(s, a)$ instead of $V^\pi(s)$ as follows:
+
+  \begin{equation}
+    \pi(s) \leftarrow \arg\max_a Q^{\pi'}(s, a),
+  \end{equation}
+
+  where $\pi'$ is the old policy we are improving.
+  
 \item
-  On page 74 (it's actually on page 75), policy evaluation involves a summation over actions, with
-  the policy taking each action being multiplied by the sum over states and rewards. On page 80, the summation
-  over actions is not present, and so we compute the action in the probability term by using the
-  policy previously computed in the policy improvement step. The reason for this is \textbf{todo}
+  \par On page 75, policy evaluation involves a weighted summation over actions stochastically outputted
+  by the policy multiplied by the sum over transition-weighted state rewards and state-values. On
+  page 80, the summation over actions is not present, and we compute the action in the probability
+  term deterministically by using the policy previously computed in the policy improvement step. 
+  \par We can make this distinction precisely because in one case we apply the policy stochastically
+  (therefore requiring an expectation over actions, and hence summation) while in the other case we
+  apply it deterministically. The usage of the policy in the policy evaluation step of policy
+  iteration is deterministic because we have fixed the policy after greedily obtaining it via policy
+  improvement and are now evaluating this policy specifically.
+
 \end{enumerate}
 
 \end{document}
