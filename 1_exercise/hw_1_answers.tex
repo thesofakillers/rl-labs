@@ -1,0 +1,195 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[top=1in,left=1.5in,right=1.5in,bottom=1.5in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\pagenumbering{gobble}
+\usepackage{setspace}
+\makeatletter
+\@ifpackageloaded{subfig}{}{\usepackage{subfig}}
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\captionsetup[subfloat]{margin=0.5em}
+\AtBeginDocument{%
+\renewcommand*\figurename{Figure}
+\renewcommand*\tablename{Table}
+}
+\AtBeginDocument{%
+\renewcommand*\listfigurename{List of Figures}
+\renewcommand*\listtablename{List of Tables}
+}
+\newcounter{pandoccrossref@subfigures@footnote@counter}
+\newenvironment{pandoccrossrefsubfigures}{%
+\setcounter{pandoccrossref@subfigures@footnote@counter}{0}
+\begin{figure}\centering%
+\gdef\global@pandoccrossref@subfigures@footnotes{}%
+\DeclareRobustCommand{\footnote}[1]{\footnotemark%
+\stepcounter{pandoccrossref@subfigures@footnote@counter}%
+\ifx\global@pandoccrossref@subfigures@footnotes\empty%
+\gdef\global@pandoccrossref@subfigures@footnotes{{##1}}%
+\else%
+\g@addto@macro\global@pandoccrossref@subfigures@footnotes{, {##1}}%
+\fi}}%
+{\end{figure}%
+\addtocounter{footnote}{-\value{pandoccrossref@subfigures@footnote@counter}}
+\@for\f:=\global@pandoccrossref@subfigures@footnotes\do{\stepcounter{footnote}\footnotetext{\f}}%
+\gdef\global@pandoccrossref@subfigures@footnotes{}}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Exercise Set 1 - Reinforcement Learning},
+  pdfauthor={Giulio Starace - 13010840},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Exercise Set 1 - Reinforcement Learning}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{MDPs and Dynamic Programming}
+\author{Giulio Starace - 13010840}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\hypertarget{homework-coding-assignment---dynamic-programming}{%
+\section{Homework: Coding Assignment - Dynamic
+Programming}\label{homework-coding-assignment---dynamic-programming}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Coding answers have been submitted on codegra under the group
+  ``stalwart cocky sawfly''.
+\item
+  Comparing policy iteration and value iteration algorithms:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    I expect a single iteration of value iteration to run faster than a
+    single iteration of policy iteration. This is because an iteration
+    of policy iteration involves policy evaluation, which itself is an
+    iterative process requiring several sweeps across the set of states.
+    On the other hand, an iteration in value iteration ``truncates''
+    policy evaluation by stopping after a single sweep.
+  \item
+    I expect policy iteration to take fewer iterations than value
+    iteration. This is because \textbf{TODO}
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{homework-dynamic-programming}{%
+\section{Homework: Dynamic
+Programming}\label{homework-dynamic-programming}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The value \(v^\pi(s)\) of a state \(s\) under policy \(\pi\) is simply
+  the expected action-value function at \(s\) over all actions \(a\)
+  under \(pi\). It can hence be expressed in terms of \(\pi\) and
+  \(q^\pi(s, a)\) as:
+
+  \begin{align}
+     v^\pi(s) &= \mathbb{E}_\pi\left[q^\pi(S_t, A_t) | S_t = s, A_t=a\right]\notag\\ 
+     v^\pi(s) &= \sum_a \pi(s|a) q^\pi(s, a) \label{eq:sv_sav}
+  \end{align}
+
+  in the stochastic case and
+
+  \begin{equation}
+     v^\pi(s) =  q^\pi(s, \pi(s))
+  \end{equation}
+
+  in the deterministic case.
+
+\item
+  The value iteration update can be re-written in terms of Q-values as such:
+  
+  \begin{equation}
+    q_{k+1}(s, a) = \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_k(s', a')\right],
+  \end{equation}
+  obtaining the Q-value iteration update. This is done by turning the Bellman optimality equation
+  for $q_*(s, a)$ into an update rule, as is done for the value iteration update.
+
+\item
+  A new policy evaluation update in terms of $Q^\pi(s, a)$ instead of $V^\pi(s)$ can be obtained by
+  writing the following, making use of equation (\ref{eq:sv_sav}):
+  \begin{equation}
+    Q^\pi(s, a) \leftarrow \sum_{s', r} p(s', r| s, a)\left[r + \gamma \sum_{a'}\pi(a|s)Q^\pi(s', a')\right]
+  \end{equation}
+\item
+  hello world.
+\item
+  On page 74 (it's actually on page 75), policy evaluation involves a summation over actions, with
+  the policy taking each action being multiplied by the sum over states and rewards. On page 80, the summation
+  over actions is not present, and so we compute the action in the probability term by using the
+  policy previously computed in the policy improvement step. The reason for this is \textbf{todo}
+\end{enumerate}
+
+\end{document}
