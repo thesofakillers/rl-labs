@@ -48,7 +48,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \pagenumbering{gobble}
 \usepackage{setspace}
 \makeatletter
@@ -116,12 +116,11 @@
 \maketitle
 
 \hypertarget{homework-coding-assignment---dynamic-programming}{%
-\section{Homework: Coding Assignment - Dynamic
+\section*{Homework: Coding Assignment - Dynamic
 Programming}\label{homework-coding-assignment---dynamic-programming}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   Coding answers have been submitted on codegra under the group
   ``stalwart cocky sawfly''.
@@ -129,22 +128,30 @@ Programming}\label{homework-coding-assignment---dynamic-programming}}
   Comparing policy iteration and value iteration algorithms:
 
   \begin{itemize}
-  \tightlist
   \item
-    I expect a single iteration of value iteration to run faster than a
-    single iteration of policy iteration. This is because an iteration
-    of policy iteration involves policy evaluation, which itself is an
-    iterative process requiring several sweeps across the set of states.
-    On the other hand, an iteration in value iteration ``truncates''
-    policy evaluation by stopping after a single sweep.
+    I expect a single iteration of value iteration to run faster than a single iteration of policy
+    iteration. This is because an iteration of policy iteration involves policy evaluation, which
+    itself is an iterative process requiring several sweeps across the set of states. On the other
+    hand, an iteration in value iteration ``truncates'' policy evaluation by stopping after a single
+    sweep.
   \item
-    I expect policy iteration to take fewer iterations than value
-    iteration. This is because \textbf{TODO}
-  \end{itemize}
+    I expect policy iteration to take fewer total iterations than value iteration. This is because
+    value iteration relies on the convergence to an optimal \textit{value function}, despite
+    ultimately being interested in the optimal \textit{policy}. Since the convergence criterion is
+    set to some arbitrarily small $\Delta$, and we only extract the optimal policy from the optimal
+    value function after convergence, it can occur that the optimal policy is found before
+    convergence. In policy iteration on the other hand, since we improve our policy at each
+    iteration, we obtain a new policy at each iteration, which we can evaluate in the next iteration
+    before checking for stability (and hence convergence). This potentially allows for more directed
+    improvements since we are directly focusing on the policy rather than the value function.
+    Furthermore this is a more frequent way of checking for \textit{policy} optimality by directly
+    evaluating policies. The more frequent and directness of the convergence check intuitively
+    suggests faster convergence than value iteration.
+  \end{itemize} 
 \end{enumerate}
 
 \hypertarget{homework-dynamic-programming}{%
-\section{Homework: Dynamic
+\section*{Homework: Dynamic
 Programming}\label{homework-dynamic-programming}}
 
 \begin{enumerate}
