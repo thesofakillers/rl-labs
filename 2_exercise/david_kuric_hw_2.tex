@@ -62,14 +62,23 @@
 
 	\item Coding answers have been submitted on codegra under the group ``stalwart cocky sawly".
 	      Please refer to Figures \ref{fig:figure_5.1} and \ref{fig:v_function} for the requested figures.
-	      \begin{figure}
+	      \begin{figure}[ht]
 		      \centering
 		      \includegraphics[width=\textwidth]{fig_5.1}
-		      \caption{Blackjack value function across state configurations after 10k and 500k episodes.
-			      Reproduction of figure 5.1 from Sutton and Barto, using heatmaps.}
+		      \caption{Blackjack value function across state configurations after 10k and 500k episodes
+			      using on-policy MC prediction. Reproduction of figure 5.1 from Sutton and Barto, using
+			      heatmaps.}
 		      \label{fig:figure_5.1}
 	      \end{figure}
-	\item let's go
+
+	      \begin{figure}[ht]
+		      \centering
+		      \includegraphics[width=\textwidth]{fig_5.1_off_policy}
+		      \caption{Blackjack value function across state configurations after 10k and 500k episodes
+			      using off-policy MC prediction with ordinary importance sampling.}
+		      \label{fig:v_function}
+	      \end{figure}
+	\item hello world
 \end{enumerate}
 
 \section*{Homework: SARSA and Q-learning}
