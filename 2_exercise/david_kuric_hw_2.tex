@@ -1,9 +1,21 @@
 \documentclass{article}
 
+\usepackage[top=1in,left=1.5in,right=1.5in,bottom=1.5in]{geometry}
+
+\usepackage{subcaption}
+
+\usepackage{booktabs}
+
 \usepackage{graphicx}
+\let\rfb\reflectbox
 \graphicspath{ {images} }
  
 \usepackage{mathtools}
+
+\usepackage{nicefrac}
+\newcommand{\flippedfrac}[2]{\rfb{\nicefrac{\rfb{#2}}{\rfb{#1}}}}
+
+
 
 \usepackage{amsthm}
 \renewcommand{\qedsymbol}{$\blacksquare$}
@@ -78,20 +90,88 @@
 			      using off-policy MC prediction with ordinary importance sampling.}
 		      \label{fig:v_function}
 	      \end{figure}
-	\item hello world
+	\item The main difference between Dynamic Programming (DP) and Monte Carlo (MC) is that the former assumes
+	      a perfect model (complete knowledge) of the environment, while the latter does not, relying
+	      on experience instead. Furthermore, unlike DP methods, MC methods do not \textit{bootstrap},
+	      i.e. they do not update their estimates using other estimates. MC methods are better suited
+	      in situations where the environment is not known and needs to be learned about. DP on the
+	      other hand is better suited in situations where the environment is known and we can afford
+	      to compute the value function of each state.
+
 \end{enumerate}
 
 \section*{Homework: SARSA and Q-learning}
 \begin{enumerate}
 	\item \begin{enumerate}
-		      \item hey
-		      \item ho
+		      \item Please refer to Table \ref{tab:converged_sarsa} for the final Q-values for all
+		            states and actions after converging un-discounted SARSA with an $\epsilon$-greedy
+		            policy with $\epsilon=0.1$.
+		      \item The final policy will prefer to choose action $a_1$ more often in state A when $Q(A,
+			            a_1) > Q(A, a_0)$, that is when
+		            \begin{align*}
+			            Q(A,a_1)    & > Q(A, a_0) \\
+			            3.9 + 0.05n & > 2         \\
+			            n           & > -38
+		            \end{align*}
+		            i.e when $n \in (-38, 2)$. Similarly the final policy will prefer to choose action
+		            $a_0$ more often in state A when $Q(A,
+			            a_1) < Q(A, a_0)$, that is when
+		            \begin{align*}
+			            Q(A,a_1)    & < Q(A, a_0) \\
+			            3.9 + 0.05n & < 2         \\
+			            n           & < -38
+		            \end{align*}
+		            i.e when $n \in (-\infty, -38)$. When $n = 38$, the final policy will choose between
+		            actions $a_0$ and $a_1$ arbitrarily.
 	      \end{enumerate}
 	\item \begin{enumerate}
-		      \item hey
-		      \item ho
+		      \item Please refer to Table \ref{tab:converged_qlearning} for the final Q-values for all
+		            states and actions after converging un-discounted Q-learning.
+		      \item The final policy will prefer to choose action $a_1$ more often in state A when $Q(A,
+			            a_1) > Q(A, a_0)$, that is when
+		            \begin{align*}
+			            Q(A,a_1)       & > Q(A, a_0) \\
+			            2 + \max(2, n) & > 2         \\
+			            \max(2,n)      & > 0
+		            \end{align*}
+		            This condition remains true regardless of the value of $n$, so the final policy will
+		            always prefer to choose action $a_1$ when in state $A$, for any $n \in (-\infty,
+			            \infty)$. As such, the final policy will never choose $a_0$ in state $A$, i.e. for
+		            none of the values of $n$.
+		            \begin{table}[h]
+			            \caption{Converged Q-values for SARSA and Q-learning, assuming
+				            initialization at 0.}
+			            \begin{subtable}{0.5\linewidth}\centering
+				            \begin{tabular}{@{}ccccc@{}}
+					            \toprule
+					                  & A             & B & C   & T \\ \midrule
+					            $a_0$ & 2             & 1 & 2   & 0 \\
+					            $a_1$ & $3.9 + 0.05n$ & 0 & $n$ & 0 \\ \bottomrule
+				            \end{tabular}
+				            \caption{Q-values for all states and actions at SARSA convergence.}
+				            \label{tab:converged_sarsa}
+			            \end{subtable}
+			            \quad
+			            \begin{subtable}{0.5\linewidth}\centering
+				            \begin{tabular}{@{}ccccc@{}}
+					            \toprule
+					                  & A                & B & C   & T \\ \midrule
+					            $a_0$ & 2                & 1 & 2   & 0 \\
+					            $a_1$ & $2 + \max(2, n)$ & 0 & $n$ & 0 \\ \bottomrule
+				            \end{tabular}
+				            \caption{Q-values for all states and actions at Q-learning convergence.}
+				            \label{tab:converged_qlearning}
+			            \end{subtable}
+			            \label{tab:converged}
+		            \end{table}
 	      \end{enumerate}
-	\item let's go
+	\item With $n=1$ and the addition of an extra action $a_2$ in $A$ causing a transition to
+	      $B$ with reward 1, the final performance (average return after convergence) of Q-learning would
+	      remain the same. This is because Q-learning converges to the optimal policy, choosing the action
+	      with the maximum value, which in this case, remains to be $a_1$, as $a_2$ provides the same
+	      effect as $a_0$, which we have established is never chosen by a converged Q-learning policy.
+	      The final performance of SARSA on the other hand would decrease, as there are now more
+	      actions to choose from in state $A$, causing the policy to choose greedily less often.
 \end{enumerate}
 
 
