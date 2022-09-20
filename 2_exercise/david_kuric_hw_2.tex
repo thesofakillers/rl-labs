@@ -58,10 +58,10 @@
 	      \end{equation}
 	      We expand equation (\ref{eq:value_function_estimate}) to obtain:
 	      \begin{align*}
-		      V_n(s) & = \frac{1}{n} \left[W_{n-1} G_{n-1} \sum^{n-1}_{i=1}W_kG_k\right]                  \\
-		             & = \frac{1}{n} \left[W_{n-1} G_{n-1}
+		      V_n(s) & = \frac{1}{n} \left[W_{n-1} G_{n-1} + \sum^{n-1}_{i=1}W_kG_k\right]                \\
+		             & = \frac{1}{n} \left[W_{n-1} G_{n-1} +
 		      (n-1)\underbracket{\left(\frac{1}{n-1}\right)\sum^{n-1}_{i=1}W_kG_k}\right]                 \\
-		             & =  \frac{1}{n} \left[W_{n-1} G_{n-1}(n-1)\underbracket{V_{n-1}(s)} \right]         \\
+		             & =  \frac{1}{n} \left[W_{n-1} G_{n-1}+ (n-1)\underbracket{V_{n-1}(s)} \right]       \\
 		             & = \frac{1}{n} \left[W_{n-1} G_{n-1}+ n V_{n-1}(s) - V_{n-1}(s)\right]              \\
 		      V_n(s) & =  V_{n-1}(s) + \frac{1}{n} \left[W_{n-1} G_{n-1} - V_{n-1}(s)\right]. \numberthis
 		      \label{eq:incremental_update_rule}
