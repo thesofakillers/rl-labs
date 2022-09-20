@@ -58,19 +58,19 @@
 	      \end{equation}
 	      We expand equation (\ref{eq:value_function_estimate}) to obtain:
 	      \begin{align*}
-		      V_n(s) & = \frac{1}{n} \left[W_{n-1} G_{n-1} + \sum^{n-1}_{i=1}W_kG_k\right]                \\
-		             & = \frac{1}{n} \left[W_{n-1} G_{n-1} +
-		      (n-1)\underbracket{\left(\frac{1}{n-1}\right)\sum^{n-1}_{i=1}W_kG_k}\right]                 \\
-		             & =  \frac{1}{n} \left[W_{n-1} G_{n-1}+ (n-1)\underbracket{V_{n-1}(s)} \right]       \\
-		             & = \frac{1}{n} \left[W_{n-1} G_{n-1}+ n V_{n-1}(s) - V_{n-1}(s)\right]              \\
-		      V_n(s) & =  V_{n-1}(s) + \frac{1}{n} \left[W_{n-1} G_{n-1} - V_{n-1}(s)\right]. \numberthis
+		      V_n(s) & = \frac{1}{n} \left[W_{n} G_{n} + \sum^{n-1}_{i=1}W_kG_k\right]                \\
+		             & = \frac{1}{n} \left[W_{n} G_{n} +
+		      (n-1)\underbracket{\left(\frac{1}{n-1}\right)\sum^{n-1}_{i=1}W_kG_k}\right]             \\
+		             & =  \frac{1}{n} \left[W_{n} G_{n}+ (n-1)\underbracket{V_{n-1}(s)} \right]       \\
+		             & = \frac{1}{n} \left[W_{n} G_{n}+ n V_{n-1}(s) - V_{n-1}(s)\right]              \\
+		      V_n(s) & =  V_{n-1}(s) + \frac{1}{n} \left[W_{n} G_{n} - V_{n-1}(s)\right]. \numberthis
 		      \label{eq:incremental_update_rule}
 	      \end{align*}
 	      We see that equation (\ref{eq:incremental_update_rule}) is of the form
 	      \begin{equation}
 		      V_n = V_{n-1} + \alpha * \left(\beta - V_{n-1}\right),
 	      \end{equation}
-	      with $\alpha = \frac{1}{n}$ and $\beta = W_{n-1} G_{n-1}$.  \\ \qed
+	      with $\alpha = \frac{1}{n}$ and $\beta = W_{n} G_{n}$.  \\ \qed
 
 	\item Coding answers have been submitted on codegra under the group ``stalwart cocky sawly".
 	      Please refer to Figures \ref{fig:figure_5.1} and \ref{fig:v_function} for the requested figures.
@@ -79,7 +79,7 @@
 		      \includegraphics[width=\textwidth]{fig_5.1}
 		      \caption{Blackjack value function across state configurations after 10k and 500k episodes
 			      using on-policy MC prediction. Reproduction of figure 5.1 from Sutton and Barto, using
-			      heatmaps.}
+			      heatmaps. Outlined cells have a value of exactly 0.}
 		      \label{fig:figure_5.1}
 	      \end{figure}
 
@@ -87,7 +87,8 @@
 		      \centering
 		      \includegraphics[width=\textwidth]{fig_5.1_off_policy}
 		      \caption{Blackjack value function across state configurations after 10k and 500k episodes
-			      using off-policy MC prediction with ordinary importance sampling.}
+			      using off-policy MC prediction with ordinary importance sampling. Outlined cells have
+			      a value of exactly 0.}
 		      \label{fig:v_function}
 	      \end{figure}
 	\item The main difference between Dynamic Programming (DP) and Monte Carlo (MC) is that the former assumes
