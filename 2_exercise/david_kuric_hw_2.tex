@@ -88,7 +88,10 @@
 		      \includegraphics[width=\textwidth]{fig_5.1_off_policy}
 		      \caption{Blackjack value function across state configurations after 10k and 500k episodes
 			      using off-policy MC prediction with ordinary importance sampling. Outlined cells have
-			      a value of exactly 0.}
+			      a value of exactly 0. The plots look like expected: off-policy methods are often of
+			      greater variance and ordinary importance sampling is the most variable of the two
+			      importance sampling methods - this higher variance is reflected in the plot when
+			      compared to our on-policy plot in Figure \ref{fig:figure_5.1}.}
 		      \label{fig:v_function}
 	      \end{figure}
 	\item The main difference between Dynamic Programming (DP) and Monte Carlo (MC) is that the former assumes
@@ -137,8 +140,8 @@
 		            \end{align*}
 		            This condition remains true regardless of the value of $n$, so the final policy will
 		            always prefer to choose action $a_1$ when in state $A$, for any $n \in (-\infty,
-			            \infty)$. As such, the final policy will never choose $a_0$ in state $A$, i.e. for
-		            none of the values of $n$.
+			            \infty)$. As such, the final policy will never choose $a_0$ in state $A$, i.e. it
+		            will choose $a_0$ for none of the values of $n$.
 		            \begin{table}[h]
 			            \caption{Converged Q-values for SARSA and Q-learning, assuming
 				            initialization at 0.}
@@ -166,13 +169,13 @@
 			            \label{tab:converged}
 		            \end{table}
 	      \end{enumerate}
-	\item With $n=1$ and the addition of an extra action $a_2$ in $A$ causing a transition to
-	      $B$ with reward 1, the final performance (average return after convergence) of Q-learning would
-	      remain the same. This is because Q-learning converges to the optimal policy, choosing the action
-	      with the maximum value, which in this case, remains to be $a_1$, as $a_2$ provides the same
-	      effect as $a_0$, which we have established is never chosen by a converged Q-learning policy.
-	      The final performance of SARSA on the other hand would decrease, as there are now more
-	      actions to choose from in state $A$, causing the policy to choose greedily less often.
+	\item With $n=1$ and the addition of an extra action $a_2$ in $A$ causing a transition to $B$ with
+	      reward 1, the final performance (average return after convergence) of Q-learning would remain
+	      the same. This is because Q-learning converges to the optimal policy, choosing the action with
+	      the maximum value, which in this case, remains to be $a_1$, as $a_2$ provides the same effect as
+	      $a_0$, which we have established is never chosen by a converged Q-learning policy. The final
+	      performance of SARSA on the other hand would decrease, as there are now more actions to choose
+	      from in state $A$, causing the policy to choose greedily less often.
 \end{enumerate}
 
 
