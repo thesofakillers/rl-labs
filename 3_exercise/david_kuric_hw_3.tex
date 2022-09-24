@@ -244,7 +244,14 @@
 
 \section*{Homework: Gradient Descent Methods}
 \begin{enumerate}
-	\item hello world
+	\item The true value of a state $v_\pi(S_t)$ is defined to be the expected return at that state,
+	      i.e.
+	      \begin{equation}
+		      v_\pi(S_t) = \mathbb{E}\left[ G_t \mid S_t = s \right].
+	      \end{equation}
+	      Since the Monte Carlo target \textit{is} the return $G_t$, estimated using direct samples of
+	      the true value, it has the same expected value as $v_\pi(S_t)$ and is therefore an unbiased
+	      estimate of the true value of a state by definition.
 	\item hello world
 	\item hello world
 \end{enumerate}
