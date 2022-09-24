@@ -24,6 +24,8 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -208,7 +210,36 @@
 	      policy which requires the use of a maximum operator. When coupled with stochastic
 	      transitions and rewards, such as in our MDP from state $B$, this generally leads to
 	      a positive bias in the estimated state-action values.
-	\item hello world
+	\item Double Q-learning circumvents the issue of maximization bias in Q-learning by using two
+	      independent estimates, $Q_1$ and $Q_2$, of the true value function $q$. This is unlike
+	      vanilla Q-learning where we use a single estimate $Q$. The two estimates afford us the
+	      possibility of using one estimate for determining the greedy action $A^* = \argmax_aQ_1(a)$
+	      and the other for estimating its value $Q_2(A^*) = Q_2(\argmax_aQ_1(a))$. The latter estimate
+	      is then unbiased: $\mathbb{E}\left[Q_2(A^*)\right] = q(A^*)$. We can then repeat the process
+	      with $Q_1$ and $Q_2$ swapped to obtain another unbiased estimate. More specifically, in
+	      double Q-learning for any given timestep $t$ we would, with probability 0.5, use the
+	      following update rule:
+	      \begin{equation}
+		      Q_1(S_t, A_t) \leftarrow Q_1(A_t, A_t) + \alpha \left[ R_t + \gamma Q_2(S_{t+1},
+			      \argmax_{a}Q_1(S_{t+1}, a)) - Q_1(S_t, A_t) \right],
+	      \end{equation}
+	      and flip the roles of $Q_1$ and $Q_2$ otherwise. For a more concrete example, consider the
+	      estimate of $q(A, R)$, whose true value is 0.7 but we have estimated to be 0.7216 in
+	      vanilla Q-learning as shown in Table \ref{tab:a_lr_qvalues}. Under Double Q-learning, still
+	      assuming an initialization of 0.7, our estimate would now look like:
+	      \begin{align*}
+		      Q_1(a, r) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_2(b, a_2) - 0.7\right] \\
+		                & = 0.7 + 0.2 \left[ 0.7 - 0.7\right]                      \\
+		                & = 0.7. \numberthis
+	      \end{align*}
+	      We can repeat this process with $Q_1$ and $Q_2$ swapped to obtain another unbiased estimate:
+	      \begin{align*}
+		      Q_2(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_1(B, a_2) - 0.7\right] \\
+		                & = 0.7 + 0.2 \left[ 0.7 - 0.7\right]                      \\
+		                & = 0.7. \numberthis
+	      \end{align*}
+	      We see that our estimate has now been reduced from 0.7216 to 0.7, the true value, thus
+	      circumventing the maximization bias issue.
 \end{enumerate}
 
 \section*{Homework: Gradient Descent Methods}
