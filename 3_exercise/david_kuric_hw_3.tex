@@ -200,7 +200,14 @@
 			      0.7                  & 0.5                  & 0.5           & 0.5           & 0.5           & 0.5           \\ \bottomrule
 		      \end{tabular}
 	      \end{table}
-	\item hello world
+	\item Maximization bias can be observed in all estimated state-action values reported in Tables
+	      \ref{tab:b_qvalues} and \ref{tab:a_lr_qvalues}, except for $Q(A, L)$ and $Q(B, a_1)$. We
+	      observe maximization bias here as the estimated values are higher than the true values
+	      reported in Table \ref{tab:true_qvalues}, i.e. they are positively biased. Both Q-learning
+	      and expected SARSA are affected by this bias, as both algorithms rely on a greedy (target)
+	      policy which requires the use of a maximum operator. When coupled with stochastic
+	      transitions and rewards, such as in our MDP from state $B$, this generally leads to
+	      a positive bias in the estimated state-action values.
 	\item hello world
 \end{enumerate}
 
