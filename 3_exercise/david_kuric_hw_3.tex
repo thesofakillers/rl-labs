@@ -137,7 +137,7 @@
 		      \caption{Expected SARSA and Q-learning state-action pair values for the four available
 			      actions at state $B$ after sampling two episodes per action.}
 		      \label{tab:b_qvalues}
-		      \begin{tabular}{@{}ccccc@{}}
+		      \begin{tabular}{@{}rcccc@{}}
 			      \toprule
 			                              & $Q(B, a_1)$ & $Q(B, a_2)$ & $Q(B, a_3)$ & $Q(B, a_4)$ \\ \midrule
 			      \textbf{expected SARSA} & 0.448       & 0.808       & 0.608       & 0.648       \\
@@ -183,8 +183,23 @@
 			      $Q(A, R)$ & 0.6856                  & 0.7216              \\ \bottomrule
 		      \end{tabular}
 	      \end{table}
-
-	\item hello world
+	\item Assuming convergence to optimality for both Q-learning and Expected SARSA, we can obtain the
+	      true state-action values by utilising the Bellman optimality equation:
+	      \begin{equation}
+		      q_*(s, a) = \sum_{s', r} p(s', r \mid s, a) \left[ r + \gamma \max_{a'} q_*(s', a') \right].
+	      \end{equation}
+	      The results of applying this equation to our MDP are summarised in Table
+	      \ref{tab:true_qvalues}.
+	      \begin{table}[ht]
+		      \centering
+		      \caption{True state-action values after Expected SARSA and Q-learning convergence.}
+		      \label{tab:true_qvalues}
+		      \begin{tabular}{@{}cccccc@{}}
+			      \toprule
+			      \textbf{$Q_*(A, L)$} & \textbf{$Q_*(A, R)$} & $Q_*(B, a_1)$ & $Q_*(B, a_2)$ & $Q_*(B, a_3)$ & $Q_*(B, a_4)$ \\ \midrule
+			      0.7                  & 0.5                  & 0.5           & 0.5           & 0.5           & 0.5           \\ \bottomrule
+		      \end{tabular}
+	      \end{table}
 	\item hello world
 	\item hello world
 \end{enumerate}
