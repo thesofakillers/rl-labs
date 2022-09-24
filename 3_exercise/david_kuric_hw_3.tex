@@ -10,6 +10,8 @@
 \let\rfb\reflectbox
 \graphicspath{ {images} }
  
+\usepackage{cancel}
+
 \usepackage{mathtools}
 
 \usepackage{nicefrac}
@@ -52,8 +54,136 @@
 
 \section*{Homework: Maximization Bias}
 \begin{enumerate}
-	\item hello world
-	\item hello world
+	\item For the sake of clarity, we label the four outgoing actions from $B$ as $a_1$, $a_2$, $a_3$
+	      and $a_4$, from left to right, and say they belong to the action set $A$. For expected
+	      SARSA, we use the expected SARSA update rule to determine the state-action values:
+	      \begin{align*}
+		      Q(S_t, A_t) & \leftarrow Q(S_t, A_t) + \alpha \left[ R_{t+1} + \gamma \mathbb{E}_\pi
+		      \left[Q(S_{t+1}, A_{t+1})|S_{t+1}\right]  - Q(S_t, A_t) \right]                            \\
+		                  & = Q(S_t, A_t) + \alpha \left[ R_{t+1} + \gamma \sum_{a \in A} \pi(a|S_{t+1})
+			      Q(S_{t+1}, a) - Q(S_t, A_t) \right]. \numberthis \label{eq:expected_sarsa_update}
+	      \end{align*}
+	      Because all actions from $B$ lead to a terminal state, we have that $Q(S_{t+1}, a) = 0$ for
+	      all $a \in A$ when $S_t = B$.
+
+	      For $a_1$, on the first relevant sampled episode we have $R_{t+1} = 0$ giving:
+	      \begin{align*}
+		      Q(B, a_1) & \leftarrow  0.7 + 0.2 \left[ 0 +\cancelto{0}{1 \times 4(0.25 \times 0)}
+		      - 0.7 \right]                                                                       \\
+		                & = 0.7 + 0.2 \left[- 0.7 \right]                                         \\
+		                & = 0.56.\numberthis                                                      \\
+	      \end{align*}
+	      And on the next relevant sampled episode we get the same reward, giving:
+	      \begin{align*}
+		      Q(B, a_1) & \leftarrow 0.56 + 0.2 \left[0 + \cancelto{0}{1 \times 4(0.25 \times 0)} - 0.56
+		      \right]                                                                                    \\
+		                & = 0.56 + 0.2 \left[- 0.56 \right]                                              \\
+		                & = 0.448.\numberthis
+	      \end{align*}
+	      For $a_2$, on the first relevant sampled episode we have $R_{t+1} = 1$, giving:
+	      \begin{align*}
+		      Q(B, a_2) & \leftarrow 0.7 + 0.2 \left[ 1 + \cancelto{0}{1 \times 4(0.25 \times 0)} - 0.7
+		      \right]                                                                                   \\
+		                & = 0.7 + 0.2 \left[0.3 \right]                                                 \\
+		                & = 0.76. \numberthis
+	      \end{align*}
+	      And on the next relevant sampled episode, we get the same reward, giving:
+	      \begin{align*}
+		      Q(B, a_2) & \leftarrow 0.76 + 0.2 \left[ 1 + \cancelto{0}{1 \times 4(0.25 \times 0)}
+		      - 0.76 \right]                                                                       \\
+		                & = 0.76 + 0.2 \left[0.24 \right]                                          \\
+		                & = 0.808. \numberthis
+	      \end{align*}
+	      For $a_3$, on the first relevant sampled episode we have $R_{t+1} = 1$, which we know from
+	      the first update to $a_2$ gives us
+	      \begin{equation}
+		      Q(B, a_3) \leftarrow 0.76.
+	      \end{equation}
+	      On the next relevant sampled episode, we have $R_{t+1} = 0$, giving:
+	      \begin{align*}
+		      Q(B, a_2) & \leftarrow 0.76 + 0.2 \left[ 0 + \cancelto{0}{1 \times 4(0.25 \times 0)}
+		      - 0.76 \right]                                                                       \\
+		                & = 0.76 + 0.2 \left[-0.76 \right]                                         \\
+		                & = 0.608. \numberthis
+	      \end{align*}
+	      For $a_4$, on the first relevant sampled episode we have $R_{t+1} = 0$, which we know from
+	      the first update to $a_1$ gives us
+	      \begin{equation}
+		      Q(B, a_4) \leftarrow 0.56.
+	      \end{equation}
+	      On the next relevant sampled episode, we have $R_{t+1} = 1$, giving:
+	      \begin{align*}
+		      Q(B, a_1) & \leftarrow 0.56 + 0.2 \left[1 + \cancelto{0}{1 \times 4(0.25 \times 0)} - 0.56
+		      \right]                                                                                    \\
+		                & = 0.56 + 0.2 \left[0.44 \right]                                                \\
+		                & = 0.648.\numberthis
+	      \end{align*}
+	      For Q-learning, we use the Q-learning update rule to determine the state-action values:
+	      \begin{equation}
+		      Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \left[ R_{t+1} + \gamma \max_{a \in A}
+			      Q(S_{t+1}, a) - Q(S_t, A_t) \right].\label{eq:q_learning_update}
+	      \end{equation}
+	      Note once again that since when $S_t = B$, $S_{t+1}$ is always a terminal state, then like
+	      before $Q(S_{t+1}, a) = 0$ for all $a \in A$. Therefore, in this case, equation
+	      (\ref{eq:q_learning_update}) reduces like equation (\ref{eq:expected_sarsa_update}) to
+	      \begin{equation}
+		      Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \left[ R_{t+1} - Q(S_t, A_t)
+			      \right]. \label{eq:terminal_reduction}
+	      \end{equation}
+	      Therefore, all the state-action values in state $B$ are the same in Q-learning as for
+	      expected SARSA. For a clearer summary, refer to Table \ref{tab:b_qvalues}.
+	      \begin{table}[ht]
+		      \centering
+		      \caption{Expected SARSA and Q-learning state-action pair values for the four available
+			      actions at state $B$ after sampling two episodes per action.}
+		      \label{tab:b_qvalues}
+		      \begin{tabular}{@{}ccccc@{}}
+			      \toprule
+			                              & $Q(B, a_1)$ & $Q(B, a_2)$ & $Q(B, a_3)$ & $Q(B, a_4)$ \\ \midrule
+			      \textbf{expected SARSA} & 0.448       & 0.808       & 0.608       & 0.648       \\
+			      \textbf{Q-learning}     & 0.448       & 0.808       & 0.608       & 0.648       \\ \bottomrule
+		      \end{tabular}
+	      \end{table}
+	\item To determine what the new $Q(A, L)$ value is when executing $L$ in $A$ after the 10
+	      episodes, assuming that $Q(A, L)$ is still at 0.7, we use the same update rules as stated
+	      before, i.e. equation (\ref{eq:expected_sarsa_update}) for expected SARSA and equation
+	      (\ref{eq:q_learning_update}) for Q-learning. Since taking $L$ at $A$ leads to a terminal
+	      state, equations (\ref{eq:expected_sarsa_update}) and (\ref{eq:q_learning_update}) once
+	      again reduce to equation (\ref{eq:terminal_reduction}). For both expected SARSA and
+	      Q-learning we therefore have:
+	      \begin{align*}
+		      Q(A, L) & \leftarrow 0.7 + 0.2 \left[ 0.7 - 0.7 \right] \\
+		              & = 0.7 + 0.2 \left[ 0 \right]                  \\
+		              & = 0.7. \numberthis
+	      \end{align*}
+	      We apply the same process to determine what the new $Q(A, R)$ value is when executing $R$ in
+	      $A$ after the 10 episodes, assuming that $Q(A, R)$ is still at 0.7. However, the reduction
+	      to equation (\ref{eq:terminal_reduction}) is not possible in this case, since $R$ from $A$
+	      does not transition to a terminal state. With expected SARSA we have
+	      \begin{align*}
+		      Q(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + 0.25\left(0.448 + 0.808 + 0.608 + 0.648\right)
+		      - 0.7\right]                                                                             \\
+		              & = 0.6856. \numberthis
+	      \end{align*}
+	      With Q-learning, we have
+	      \begin{align*}
+		      Q(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + 0.808 - 0.7 \right] \\
+		              & = 0.7216. \numberthis
+	      \end{align*}
+	      For a clearer summary, please refer to Table \ref{tab:a_lr_qvalues}.
+	      \begin{table}[ht]
+		      \centering
+		      \caption{Expected SARSA and Q-learning state-action pair values at $A$ when executing $R$
+			      and $L$ from $A$ after the 10 sampled episodes.}
+		      \label{tab:a_lr_qvalues}
+		      \begin{tabular}{@{}ccc@{}}
+			      \toprule
+			                & \textbf{Expected SARSA} & \textbf{Q-learning} \\ \midrule
+			      $Q(A, L)$ & 0.7                     & 0.7                 \\
+			      $Q(A, R)$ & 0.6856                  & 0.7216              \\ \bottomrule
+		      \end{tabular}
+	      \end{table}
+
 	\item hello world
 	\item hello world
 	\item hello world
@@ -68,3 +198,4 @@
 
 
 \end{document}
+
