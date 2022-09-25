@@ -252,7 +252,36 @@
 	      Since the Monte Carlo target \textit{is} the return $G_t$, estimated using direct samples of
 	      the true value, it has the same expected value as $v_\pi(S_t)$ and is therefore an unbiased
 	      estimate of the true value of a state by definition.
-	\item hello world
+	\item The temporal difference (TD) error, $\delta_t$ is given by
+	      \begin{equation}
+		      \delta_t ~\dot{=}~ R_{t+1} + \gamma V(S_{t+1}) - V(S_t).\label{eq:td_err}
+	      \end{equation}
+	      A weight update that minimizes the mean squared temporal difference error
+	      $\overline{\delta_t}$ can be derived by considering the definition of mean square
+	      \textit{value} error $\overline{\text{VE}}$:
+	      \begin{equation}
+		      \overline{\text{VE}} ~ \dot{=} ~ \sum_{s \in \mathcal{S}} \mu(s) \left[v_\pi(s)
+			      - \hat{v}(s, \mathbf{w})\right]^2,
+	      \end{equation}
+	      where $\hat{v}$ is our approximation and $v_\pi$ is the true value. Here we have the squared
+	      error term in the brackets, weighted by ``how much we care about it'', $\mu(s)$ in a sum. We
+	      can replace the error term in the brackets with the TD error given in equation
+	      (\ref{eq:td_err}), obtaining
+	      \begin{equation}
+		      \overline{\delta_t} = \sum_{s_t, s_{t+1} \in \mathcal{S}} \mu(s) \left[R_{t+1} + \gamma
+			      v_\pi(s_{t+1}) - \hat{v}(s_t, \mathbf{w}))\right]^2,
+	      \end{equation}
+	      where we are now summing over all possible state transitions $(s_t, s_{t+1})$.  We can then
+	      find the weight update rule that minimizes the mean squared TD error by taking the gradient
+	      with respect to $\mathbf{w}$:
+	      \begin{align*}
+		      \mathbf{w}_{t+1} & \leftarrow \mathbf{w}_t - \frac{1}{2} \alpha \nabla\left[R_{t+1}
+		      + \gamma v_\pi(s_{t+1}) - \hat{v}(s_t, \mathbf{w}))\right]^2                        \\
+		                       & = \mathbf{w}_t + \alpha \left[R_{t+1} + \gamma v_\pi(s_{t+1})
+		      - \hat{v}(s_t, \mathbf{w}))\right]^2 \nabla \hat{v}(s_t, \mathbf{w})                \\
+		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \hat{v}(s_t,
+		      \mathbf{w}). \numberthis
+	      \end{align*}
 	\item hello world
 \end{enumerate}
 
