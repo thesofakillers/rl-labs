@@ -269,19 +269,24 @@
 	      (\ref{eq:td_err}), obtaining
 	      \begin{equation}
 		      \overline{\delta_t} = \sum_{s_t, s_{t+1} \in \mathcal{S}} \mu(s) \left[R_{t+1} + \gamma
-			      v_\pi(s_{t+1}) - \hat{v}(s_t, \mathbf{w}))\right]^2,
+			      \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2,
 	      \end{equation}
 	      where we are now summing over all possible state transitions $(s_t, s_{t+1})$.  We can then
 	      find the weight update rule that minimizes the mean squared TD error by taking the gradient
 	      with respect to $\mathbf{w}$:
 	      \begin{align*}
 		      \mathbf{w}_{t+1} & \leftarrow \mathbf{w}_t - \frac{1}{2} \alpha \nabla\left[R_{t+1}
-		      + \gamma v_\pi(s_{t+1}) - \hat{v}(s_t, \mathbf{w}))\right]^2                        \\
-		                       & = \mathbf{w}_t + \alpha \left[R_{t+1} + \gamma v_\pi(s_{t+1})
+		      + \gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2          \\
+		                       & = \mathbf{w}_t + \alpha \left[R_{t+1} + \gamma \hat{v}(s_{t+1},
+			      \mathbf{w})
 		      - \hat{v}(s_t, \mathbf{w}))\right]^2 \nabla \hat{v}(s_t, \mathbf{w})                \\
 		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \hat{v}(s_t,
 		      \mathbf{w}). \numberthis
 	      \end{align*}
+	      This is precisely the same result as Semi-Gradient TD. We note that semi-gradient methods no
+	      longer make use of information on the true target value, $v_\pi(s)$, instead only accounting
+	      for changes on the estimates. In this sense, only a portion of the true gradient is
+	      considered, hence the name ``semi-gradient''.
 	\item hello world
 \end{enumerate}
 
