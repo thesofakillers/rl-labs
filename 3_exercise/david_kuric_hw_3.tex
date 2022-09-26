@@ -283,11 +283,17 @@
 		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \hat{v}(s_t,
 		      \mathbf{w}). \numberthis
 	      \end{align*}
-	      This is precisely the same result as Semi-Gradient TD. We note that semi-gradient methods no
-	      longer make use of information on the true target value, $v_\pi(s)$, instead only accounting
+	      This is precisely the same result as Semi-Gradient TD(0). We note that semi-gradient methods no
+	      longer make use of information from the true target value, $v_\pi$, instead only accounting
 	      for changes on the estimates. In this sense, only a portion of the true gradient is
 	      considered, hence the name ``semi-gradient''.
-	\item hello world
+	\item Semi-gradient methods indeed have some advantages over Monte Carlo approaches.
+	      A bootstrapping method would be preferred over a Monte Carlo approach in the case of the
+	      Mountain Car problem because it would enable continuous and online learning, in simple
+	      words: non-stop learning that can occur interleaved with the agent actions. This is desired
+	      in this case because a given episode terminates only when the car reaches the goal, making
+	      learning much more slower if relying on Monte Carlo methods, which require the use of the
+	      return.
 \end{enumerate}
 
 
