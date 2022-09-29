@@ -215,14 +215,16 @@
 			      0.7                  & 0.5                  & 0.5           & 0.5           & 0.5           & 0.5           \\ \bottomrule
 		      \end{tabular}
 	      \end{table}
-	\item Maximization bias can be observed in all estimated state-action values reported in Tables
-	      \ref{tab:b_qvalues} and \ref{tab:a_lr_qvalues}, except for $Q(A, L)$ and $Q(B, a_1)$. We
-	      observe maximization bias here as the estimated values are higher than the true values
-	      reported in Table \ref{tab:true_qvalues}, i.e. they are positively biased. Both Q-learning
-	      and expected SARSA are affected by this bias, as both algorithms rely on a greedy (target)
-	      policy which requires the use of a maximum operator. When coupled with stochastic
-	      transitions and rewards, such as in our MDP from state $B$, this generally leads to
-	      a positive bias in the estimated state-action values.
+	\item Maximization bias can be observed in the value of $Q(A, R)$ under Q-learning. We observe
+	      maximization bias here as the estimated value (reported in Table \ref{tab:a_lr_qvalues}) are
+	      higher than the true values (reported in Table \ref{tab:true_qvalues}), i.e. they are positively
+	      biased. In general, both Q-learning and expected SARSA are affected by this bias, as both
+	      algorithms rely on a greedy (target) policy which requires the use of a maximum operator. When
+	      coupled with stochastic transitions and rewards, this generally leads to a positive bias in the
+	      estimated state-action values. In our particular example, we only observe maximization bias
+	      under Q-learning since here because we see an (erroneous) positive increase in value from the
+	      initial value, from 0.7 to 0.7216, while with Expected SARSA the value is (correctly) decreased
+	      from 0.7 to 0.6856.
 	\item Double Q-learning circumvents the issue of maximization bias in Q-learning by using two
 	      independent estimates, $Q_1$ and $Q_2$, of the true value function $q$. This is unlike
 	      vanilla Q-learning where we use a single estimate $Q$. The two estimates afford us the
@@ -241,14 +243,14 @@
 	      vanilla Q-learning as shown in Table \ref{tab:a_lr_qvalues}. Under Double Q-learning, still
 	      assuming an initialization of 0.7, our estimate would now look like:
 	      \begin{align*}
-		      Q_1(a, r) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_2(b, a_2) - 0.7\right] \\
+		      Q_1(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_2(B, a_2) - 0.7\right] \\
 		                & = 0.7 + 0.2 \left[ 0.7 - 0.7\right]                      \\
 		                & = 0.7. \numberthis
 	      \end{align*}
 	      We can repeat this process with $Q_1$ and $Q_2$ swapped to obtain another unbiased estimate:
 	      \begin{align*}
 		      Q_2(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_1(B, a_2) - 0.7\right] \\
-		                & = 0.7 + 0.2 \left[ 0.7 - 0.7\right]                      \\
+		                & = 0.7 + 0.2 \left[ 0.7 - B.7\right]                      \\
 		                & = 0.7. \numberthis
 	      \end{align*}
 	      We see that our estimate has now been reduced from 0.7216 to 0.7, the true value, thus
