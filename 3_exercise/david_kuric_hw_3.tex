@@ -51,7 +51,20 @@
 \section*{Homework: Coding Assignment - Temporal Difference Learning}
 \begin{enumerate}
 	\item Coding answers have been submitted on codegra under the group ``stalwart cocky sawly".
-	\item Hello World
+	\item As can be seen in Fig. \ref{fig:sarsa_v_qlearning}, Q-learning achieves higher average
+	      return for the particular environment considered. This is the opposite of Example 6.6 in the
+	      book where SARSA achieves higher average return. This is due to the difference between
+	      environments. In Example 6.6, the environment contains a penalty cliff adjacent to the
+	      optimal path, causing optimally acting agents (converged q-learners) to risk incurring high
+	      penalties. This is unlike the environment considered in this homework, where the optimal
+	      path is in a sense ``risk-free'', allowing Q-learning to outperform SARSA.
+	      \begin{figure}[ht]
+		      \centering
+		      \includegraphics[width=\textwidth]{sarsa_v_qlearning}
+		      \caption{SARSA vs Q-learning average return over number of episodes for the Windy
+			      Gridworld environment.}
+		      \label{fig:sarsa_v_qlearning}
+	      \end{figure}
 \end{enumerate}
 
 \section*{Homework: Maximization Bias}
@@ -278,8 +291,7 @@
 		      \mathbf{w}_{t+1} & \leftarrow \mathbf{w}_t - \frac{1}{2} \alpha \nabla\left[R_{t+1}
 		      + \gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2          \\
 		                       & = \mathbf{w}_t + \alpha \left[R_{t+1} + \gamma \hat{v}(s_{t+1},
-			      \mathbf{w})
-		      - \hat{v}(s_t, \mathbf{w}))\right]^2 \nabla \hat{v}(s_t, \mathbf{w})                \\
+		      \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right] \nabla \hat{v}(s_t, \mathbf{w})      \\
 		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \hat{v}(s_t,
 		      \mathbf{w}). \numberthis
 	      \end{align*}
@@ -289,10 +301,10 @@
 	      considered, hence the name ``semi-gradient''.
 	\item Semi-gradient methods indeed have some advantages over Monte Carlo approaches.
 	      A bootstrapping method would be preferred over a Monte Carlo approach in the case of the
-	      Mountain Car problem because it would enable continuous and online learning, in simple
+	      Mountain Car problem because it would enable continuous and online learning. In simpler
 	      words: non-stop learning that can occur interleaved with the agent actions. This is desired
 	      in this case because a given episode terminates only when the car reaches the goal, making
-	      learning much more slower if relying on Monte Carlo methods, which require the use of the
+	      learning much slower if relying on Monte Carlo methods, which require the use of the
 	      return.
 \end{enumerate}
 
