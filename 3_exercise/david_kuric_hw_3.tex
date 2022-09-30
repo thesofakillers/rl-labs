@@ -291,16 +291,18 @@
 	      with respect to $\mathbf{w}$:
 	      \begin{align*}
 		      \mathbf{w}_{t+1} & \leftarrow \mathbf{w}_t - \frac{1}{2} \alpha \nabla\left[R_{t+1}
-		      + \gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2          \\
+		      + \gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2                   \\
 		                       & = \mathbf{w}_t + \alpha \left[R_{t+1} + \gamma \hat{v}(s_{t+1},
-		      \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right] \nabla \hat{v}(s_t, \mathbf{w})      \\
-		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \hat{v}(s_t,
-		      \mathbf{w}). \numberthis
+			      \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right] \nabla
+		      \left[\hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}) \right]                        \\
+		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \left[\underline{\hat{v}(s_{t+1},
+				      \mathbf{w}) -} \hat{v}(s_t, \mathbf{w}) \right] \numberthis
 	      \end{align*}
-	      This is precisely the same result as Semi-Gradient TD(0). We note that semi-gradient methods no
-	      longer make use of information from the true target value, $v_\pi$, instead only accounting
-	      for changes on the estimates. In this sense, only a portion of the true gradient is
-	      considered, hence the name ``semi-gradient''.
+	      We note that we no longer make use of information from the true target value, $v_\pi$,
+	      instead only accounting for changes on the estimates. We further note that unlike
+	      Semi-Gradient TD, we have an extra term (underlined), necessary to compute the gradient
+	      correctly. In Semi-Gradient TD, this term is missing and in this sense, only a portion of
+	      the true gradient is considered, hence the name ``semi-gradient''.
 	\item Semi-gradient methods indeed have some advantages over Monte Carlo approaches.
 	      A bootstrapping method would be preferred over a Monte Carlo approach in the case of the
 	      Mountain Car problem because it would enable continuous and online learning. In simpler
