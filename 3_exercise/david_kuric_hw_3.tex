@@ -312,12 +312,12 @@
 	      with respect to $\mathbf{w}$:
 	      \begin{align*}
 		      \mathbf{w}_{t+1} & \leftarrow \mathbf{w}_t - \frac{1}{2} \alpha \nabla\left[R_{t+1}
-		      + \gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2                   \\
+		      + \gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right]^2          \\
 		                       & = \mathbf{w}_t + \alpha \left[R_{t+1} + \gamma \hat{v}(s_{t+1},
 			      \mathbf{w}) - \hat{v}(s_t, \mathbf{w}))\right] \nabla
-		      \left[\hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}) \right]                        \\
-		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \left[\underline{\hat{v}(s_{t+1},
-				      \mathbf{w}) -} \hat{v}(s_t, \mathbf{w}) \right] \numberthis
+		      \left[\gamma \hat{v}(s_{t+1}, \mathbf{w}) - \hat{v}(s_t, \mathbf{w}) \right]        \\
+		                       & = \mathbf{w}_t + \alpha \delta_t \nabla \left[\underline{\gamma
+				      \hat{v}(s_{t+1} \mathbf{w}) -} \hat{v}(s_t, \mathbf{w}) \right] \numberthis
 	      \end{align*}
 	      We note that we no longer make use of information from the true target value, $v_\pi$,
 	      instead only accounting for changes on the estimates. We further note that unlike
