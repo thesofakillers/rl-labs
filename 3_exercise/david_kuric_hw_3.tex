@@ -69,7 +69,7 @@
 
 \section*{Homework: Maximization Bias}
 \begin{enumerate}
-	\item For the sake of clarity, we label the four outgoing actions from $B$ as $a_1$, $a_2$, $a_3$
+	\item \label{q:5.4.1} For the sake of clarity, we label the four outgoing actions from $B$ as $a_1$, $a_2$, $a_3$
 	      and $a_4$, from left to right, and say they belong to the action set $A$. For expected
 	      SARSA, we use the expected SARSA update rule to determine the state-action values:
 	      \begin{align*}
@@ -159,7 +159,7 @@
 			      \textbf{Q-learning}     & 0.448       & 0.808       & 0.608       & 0.648       \\ \bottomrule
 		      \end{tabular}
 	      \end{table}
-	\item To determine what the new $Q(A, L)$ value is when executing $L$ in $A$ after the 10
+	\item \label{q:5.4.2}To determine what the new $Q(A, L)$ value is when executing $L$ in $A$ after the 10
 	      episodes, assuming that $Q(A, L)$ is still at 0.7, we use the same update rules as stated
 	      before, i.e. equation (\ref{eq:expected_sarsa_update}) for expected SARSA and equation
 	      (\ref{eq:q_learning_update}) for Q-learning. Since taking $L$ at $A$ leads to a terminal
@@ -239,22 +239,43 @@
 			      \argmax_{a}Q_1(S_{t+1}, a)) - Q_1(S_t, A_t) \right],
 	      \end{equation}
 	      and flip the roles of $Q_1$ and $Q_2$ otherwise. For a more concrete example, consider the
-	      estimate of $q(A, R)$, whose true value is 0.7 but we have estimated to be 0.7216 in
-	      vanilla Q-learning as shown in Table \ref{tab:a_lr_qvalues}. Under Double Q-learning, still
-	      assuming an initialization of 0.7, our estimate would now look like:
+	      estimate of $q(A, R)$, whose true value is 0.5 but we have estimated to be 0.7216 in vanilla
+	      Q-learning as shown in Table \ref{tab:a_lr_qvalues}. To estimate this under Double
+	      Q-learning, we repeat the work of question \ref{q:5.4.1}., using Double Q-learning rather than
+	      vanilla Q-learning, to obtain $Q_1(B, a), Q_2(B, a) ~ \forall a \in A$. For simplicity, we
+	      deterministically alternate updates to $Q_1$ and $Q_2$ between the observed rewards, still
+	      assuming an initialization of 0.7. The results are summarised in Table \ref{tab:b_double_qvalues}.
+	      \begin{table}[t]
+		      \centering
+		      \caption{State-action values at state $B$ due to Double Q-learning after the 10 observed episodes, alternating updates to $Q_1$ and $Q_2$}
+		      \label{tab:b_double_qvalues}
+		      \begin{tabular}{@{}ccccc@{}}
+			      \toprule
+			      \textbf{}      & $B, a_1$ & $B, a_2$ & $B, a_3$ & $B, a_4$ \\ \midrule
+			      \textbf{$Q_1$} & 0.56     & 0.76     & 0.76     & 0.56     \\
+			      $Q_2$          & 0.56     & 0.76     & 0.56     & 0.76     \\ \bottomrule
+		      \end{tabular}
+	      \end{table}
+	      Using the values in Table \ref{tab:b_double_qvalues}, we can
+	      then continue similarly to question \ref{q:5.4.2}., assuming that $Q_1(A, R)$ and $Q_2(A, R)$ stayed at
+	      0.7 after the first 10 iterations. We apply Double Q-learning breaking ties arbitrarily and
+	      obtain:
+
 	      \begin{align*}
-		      Q_1(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_2(B, a_2) - 0.7\right] \\
-		                & = 0.7 + 0.2 \left[ 0.7 - 0.7\right]                      \\
-		                & = 0.7. \numberthis
+		      Q_1(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_2(B, \argmax_aQ_1(B, a)) - 0.7\right] \\
+		                & = 0.7 + 0.2 \left[ Q_2(B, a_3) - 0.7\right]                             \\
+		                & = 0.7 + 0.2 \left[ 0.56 - 0.7\right]                                    \\
+		                & = 0.672. \numberthis
 	      \end{align*}
 	      We can repeat this process with $Q_1$ and $Q_2$ swapped to obtain another unbiased estimate:
 	      \begin{align*}
-		      Q_2(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_1(B, a_2) - 0.7\right] \\
-		                & = 0.7 + 0.2 \left[ 0.7 - B.7\right]                      \\
-		                & = 0.7. \numberthis
+		      Q_2(A, R) & \leftarrow 0.7 + 0.2 \left[ 0 + Q_1(B, \argmax_aQ_2(B, a)) - 0.7\right] \\
+		                & = 0.7 + 0.2 \left[ Q_1(B, a_4) - 0.7\right]                             \\
+		                & = 0.7 + 0.2 \left[ 0.56 - 0.7\right]                                    \\
+		                & = 0.672. \numberthis
 	      \end{align*}
-	      We see that our estimate has now been reduced from 0.7216 to 0.7, the true value, thus
-	      circumventing the maximization bias issue.
+	      We see that our estimate has now been reduced from 0.7216 to 0.672, correctly updating with
+	      a decrease from 0.7 towards the true value of 0.5, hence circumventing maximization bias.
 \end{enumerate}
 
 \section*{Homework: Gradient Descent Methods}
