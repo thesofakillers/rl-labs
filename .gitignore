@@ -1,5 +1,6 @@
 # user set
 *_autograde.py
+*-figure*.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
