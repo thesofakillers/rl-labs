@@ -134,7 +134,6 @@
 		      \caption{Plot of $v_w$, $B^\pi v_w$ and $\Pi B^\pi v_w$}
 		      \label{fig:7.4.4}
 	      \end{figure}
-
 \end{enumerate}
 \section*{Homework: Coding Assignment - Deep Q Networks}
 \begin{enumerate}
@@ -252,7 +251,9 @@
 	      gradient. Intuitively, this is because in G(PO)MDP we only consider relevant rewards, as
 	      opposed to classical REINFORCE where we consider the return for the whole episode. This
 	      leads to less accumulation of variance from the sampled rewards.
-	\item hello world
+	\item A variation of G(PO)MDP which leverages the value function can be devised by subtracting an
+	      estimate of the value function from the return at each time step. Here the value function
+	      serves as a baseline for the reward, so to reduce variance in the gradient estimate.
 \end{enumerate}
 
 
