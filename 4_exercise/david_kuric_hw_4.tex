@@ -243,6 +243,7 @@
 		            \end{align}
 	      \end{enumerate}
 	\item hello world
+	      % TODO?
 	\item G(PO)MDP will lead to a better update than Classical REINFORCE because the latter has higher
 	      variance in its estimates. When using the same learning rate, this makes it more likely for
 	      Classical REINFORCE to overshoot the optimal update iteration.
@@ -251,9 +252,11 @@
 	      gradient. Intuitively, this is because in G(PO)MDP we only consider relevant rewards, as
 	      opposed to classical REINFORCE where we consider the return for the whole episode. This
 	      leads to less accumulation of variance from the sampled rewards.
+	      % TODO?
 	\item A variation of G(PO)MDP which leverages the value function can be devised by subtracting an
 	      estimate of the value function from the return at each time step. Here the value function
 	      serves as a baseline for the reward, so to reduce variance in the gradient estimate.
+	      % TODO?
 \end{enumerate}
 
 
