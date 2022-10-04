@@ -191,12 +191,10 @@
 			            \theta^2_a & \leftarrow \theta^1_a - \alpha \cdot 60 \cdot
 			            \nabla_{\theta_a}\left[ \log \pi_\theta(1| A, \theta_a) + \log \pi_\theta(2|
 			            A, \theta_a)\right]                                         \\
-			            \theta^1_b & \leftarrow \theta^0_b + \alpha \cdot 175 \cdot
-			            \nabla_{\theta_b}\left[ \log \pi_\theta(2| B, \theta_b) + \log \pi_\theta(2|
-			            B, \theta_b)\right]                                         \\
-			            \theta^1_b & \leftarrow \theta^0_b - \alpha \cdot 60 \cdot
-			            \nabla_{\theta_b}\left[ \log \pi_\theta(1| B, \theta_b) + \log \pi_\theta(1|
-				            B, \theta_b)\right]
+			            \theta^1_b & \leftarrow \theta^0_b + \alpha \cdot 350 \cdot
+			            \nabla_{\theta_b} \log \pi_\theta(2| B, \theta_b)           \\
+			            \theta^1_b & \leftarrow \theta^0_b - \alpha \cdot 120 \cdot
+			            \nabla_{\theta_b} \log \pi_\theta(1| B, \theta_b)
 		            \end{align}
 		      \item When using REINFORCE/G(MO)MDP, we now have a different general estimate of the
 		            gradient of the expectation of the return, $\widehat{\nabla J},$ given by
@@ -228,7 +226,13 @@
 			            \bigl[30 \cdot \log \pi (1 | B, \theta_B) \bigr]
 		            \end{align}
 	      \end{enumerate}
-	\item hello world
+	\item From our data we can tell that the optimal policy chooses action 1 when in state $B$,
+	      rather than action 2, as evidenced by the positive rewards with the former action and the
+	      negative rewards received with the latter. Our updates for $\theta_a$ will have no effect on
+	      the probability of taking actions in state $B$. Our classical REINFORCE update for
+	      $\theta_b$ in episode 1 will increase the probability of taking action 2 in state $B$, as
+	      our update is positive, indicating that we are moving in the direction of the optimal
+	      policy.
 	\item hello world
 	\item hello world
 	\item hello world
