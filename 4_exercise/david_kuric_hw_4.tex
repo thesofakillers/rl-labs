@@ -3,6 +3,7 @@
 \usepackage[top=1in,left=1.5in,right=1.5in,bottom=1.5in]{geometry}
 
 \usepackage{pgfplots}
+\usetikzlibrary{angles, arrows.meta, calc, quotes}
 \pgfplotsset{width=0.8\textwidth,compat=1.18}
 
 \usepackage{subcaption}
@@ -117,39 +118,15 @@
 		      \beta = \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{Y},
 	      \end{equation}
 	      which for our numbers gives $w = 4/5$.
-	\item hello world
-	      \begin{center}
-		      \begin{tikzpicture}
-			      \begin{axis}[
-					      xmin=0, xmax=2.2,
-					      ymin=0, ymax=2.2,
-					      xtick={0.0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0},
-					      ytick={0.0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0},
-					      axis lines = middle,
-								xlabel=$s_0$,
-								ylabel=$s_1$,
-				      ]
-				      \addplot[
-					      black,
-					      thick,
-					      mark=*,
-					      only marks,
-					      mark options={fill=white},
-					      visualization depends on=\thisrow{alignment} \as \alignment,
-					      nodes near coords, % Place nodes near each coordinate
-					      point meta=explicit symbolic, % The meta data used in the nodes is not explicitly provided and not numeric
-					      every node near coord/.style={anchor=\alignment} % Align each coordinate at the anchor 40 degrees clockwise from the right edge
-				      ] table [% Provide data as a table
-						      meta index=2 % the meta data is found in the third column
-					      ] {
-						      x       y			label						alignment
-						      2				1			$v_w$						-40
-						      1				2			$B^\pi v_w$		  -40
-						      1.6			0.8		$\Pi B^\pi v_w$	-40
-					      };
-			      \end{axis}
-		      \end{tikzpicture}
-	      \end{center}
+	\item The plot of $v_w$, $B^\pi v_w$ and $\Pi B^\pi v_w$ is shown in Figure \ref{fig:7.4.4}. TODO
+	      % put image here		
+	      \begin{figure}[ht!]
+		      \centering
+		      \includegraphics[width=0.8\textwidth]{images/7.4.4.pdf}
+		      \caption{TODO}
+		      \label{fig:7.4.4}
+	      \end{figure}
+
 \end{enumerate}
 \section*{Homework: Coding Assignment - Deep Q Networks}
 \begin{enumerate}
@@ -159,7 +136,10 @@
 
 \section*{Homework: REINFORCE}
 \begin{enumerate}
-	\item hello world
+	\item The update to the policy parameter  $\theta$ under classical REINFORCE is given by
+	      \begin{equation}
+		      \theta_{t+1} \leftarrow \theta_t + \alpha \bighat{\nabla J}
+	      \end{equation}
 	\item hello world
 	\item hello world
 	\item hello world
