@@ -118,12 +118,20 @@
 		      \beta = \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{Y},
 	      \end{equation}
 	      which for our numbers gives $w = 4/5$.
-	\item The plot of $v_w$, $B^\pi v_w$ and $\Pi B^\pi v_w$ is shown in Figure \ref{fig:7.4.4}. TODO
+	\item The plot of $v_w$, $B^\pi v_w$ and $\Pi B^\pi v_w$ is shown in Figure \ref{fig:7.4.4}. We
+	      see our value function $v_w$ lying on the representable subspace that is the line (not plane,
+	      unlike Figure 11.3 in the book) defined by our scalar (not vector, unlike Figure 11.3 in the
+	      book) parameter $w.$ We see that the application of the Bellman operator $B^\pi$ to our value
+	      function $v_w$ results in a new value function $B^\pi v_w $ outside our representable subspace.
+	      Like in Figure 11.3 in the book, we see that applying the projection operator $\Pi$ to $B^\pi
+		      v_w$ then projects the value function back onto the representable subspace, as $\Pi B^\pi v_w$,
+	      which lies on $w$. In particular, $\Pi B^\pi v_w$ lies on the line at $w = 4/5$, since this
+	      is the value of $w$ that minimizes the Bellman error.
 	      % put image here		
 	      \begin{figure}[ht!]
 		      \centering
 		      \includegraphics[width=0.6\textwidth]{images/7.4.4.pdf}
-		      \caption{TODO}
+		      \caption{Plot of $v_w$, $B^\pi v_w$ and $\Pi B^\pi v_w$}
 		      \label{fig:7.4.4}
 	      \end{figure}
 
@@ -131,7 +139,16 @@
 \section*{Homework: Coding Assignment - Deep Q Networks}
 \begin{enumerate}
 	\item Coding answers have been submitted on codegra under the group ``stalwart cocky sawly".
-	\item hello world
+	\item We can still use a tabular approach for the CartPole problem by discretizing the state
+	      space. We can do this by simply defining a grid of possible values for each of the state
+	      variables and grouping the continuous values into the appropriate bins. This approach is not
+	      possible for problems dealing with continuous control, particularly those with an infinite
+	      number of actions. An example of this training a robot hand to grasp a variety of objects
+	      without damage. The agent needs to learn to control the forces and position of the fingers, the
+	      former of which can be any real number, and may be sampled from a continuous distribution. In
+	      our CartPole example, we are able to discretize both the state space and action space since we
+	      have well defined limits on both what the state variables can be (e.g. a degree between -24 and
+	      24) and what actions we can take (e.g. go left or go right).
 \end{enumerate}
 
 \section*{Homework: REINFORCE}
@@ -226,15 +243,15 @@
 			            \bigl[30 \cdot \log \pi (1 | B, \theta_B) \bigr]
 		            \end{align}
 	      \end{enumerate}
-	\item From our data we can tell that the optimal policy chooses action 1 when in state $B$,
-	      rather than action 2, as evidenced by the positive rewards with the former action and the
-	      negative rewards received with the latter. Our updates for $\theta_a$ will have no effect on
-	      the probability of taking actions in state $B$. Our classical REINFORCE update for
-	      $\theta_b$ in episode 1 will increase the probability of taking action 2 in state $B$, as
-	      our update is positive, indicating that we are moving in the direction of the optimal
-	      policy.
 	\item hello world
-	\item hello world
+	\item G(PO)MDP will lead to a better update than Classical REINFORCE because the latter has higher
+	      variance in its estimates. When using the same learning rate, this makes it more likely for
+	      Classical REINFORCE to overshoot the optimal update iteration.
+	\item Between the approximated policy gradient for a single episode using classical REINFORCE and
+	      that using REINFORCE/G(PO)MDP, the latter has less variance around the true value of the
+	      gradient. Intuitively, this is because in G(PO)MDP we only consider relevant rewards, as
+	      opposed to classical REINFORCE where we consider the return for the whole episode. This
+	      leads to less accumulation of variance from the sampled rewards.
 	\item hello world
 \end{enumerate}
 
