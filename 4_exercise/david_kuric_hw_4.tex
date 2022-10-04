@@ -122,7 +122,7 @@
 	      % put image here		
 	      \begin{figure}[ht!]
 		      \centering
-		      \includegraphics[width=0.8\textwidth]{images/7.4.4.pdf}
+		      \includegraphics[width=0.6\textwidth]{images/7.4.4.pdf}
 		      \caption{TODO}
 		      \label{fig:7.4.4}
 	      \end{figure}
@@ -136,10 +136,72 @@
 
 \section*{Homework: REINFORCE}
 \begin{enumerate}
-	\item The update to the policy parameter  $\theta$ under classical REINFORCE is given by
-	      \begin{equation}
-		      \theta_{t+1} \leftarrow \theta_t + \alpha \bighat{\nabla J}
-	      \end{equation}
+	\item \begin{enumerate}
+		      \item \label{8.4.1a} The update to the policy parameter  $\theta$ under classical
+		            REINFORCE is given by
+		            \begin{equation}\label{eq:policy_update}
+			            \theta_{t+1} \leftarrow \theta_t + \alpha \widehat{\nabla_\theta J},
+		            \end{equation}
+		            where $\widehat{\nabla J}$ is an estimate of the gradient the expectation of the return
+		            $G(\tau)$ for a given trajectory $\tau$. This is given by
+		            \begin{equation}
+			            \widehat{\nabla_\theta J} = \frac{1}{N} \sum^N_{i=1}\left[G(\tau_i)
+				            \sum_{t=0}^T\nabla_\theta \log \pi_\theta (a_t^i | s_t^i)\right],
+		            \end{equation}
+		            where $N$ is the number of trajectories observed, and $\pi_\theta$ is the policy we
+		            are parametrising with $\theta$. Because we are interested in the update
+		            per-episode, $N=1$ and our equation simplifies to
+		            \begin{equation}\label{eq:reinforce_episode_grad}
+			            \widehat{\nabla_\theta J} = G(\tau) \sum_{t=0}^T\nabla_\theta \log \pi_\theta (a_t^i
+			            | s_t^i)
+		            \end{equation}
+		            Because in our case $\theta$ is split into $\theta_a$ and $\theta_b$, where an
+		            action in state $A$ only depends on $\theta_a$ and the action in state $B$ only
+		            depends on $\theta_b$, we can treat the update to each parameter separately,
+		            obtaining
+		            \begin{align}
+			            \theta^{t+1}_a & \leftarrow \theta^t_a + \alpha \widehat{\nabla_{\theta_a} J}  \\
+			            \theta^{t+1}_b & \leftarrow \theta^t_b + \alpha \widehat{\nabla_{\theta_b} J}.
+		            \end{align}
+		            $\widehat{\nabla_{\theta_{a/b}}J}$ takes the same form as
+		            (\ref{eq:reinforce_episode_grad}), but now only depends on the actions taken in
+		            state $A$ or $B$ respectively. This leaves us with
+		            \begin{align}
+			            \widehat{\nabla_{\theta_a} J} & = G(\tau) \sum_{t : s_t = A}^T\nabla_{\theta_a}
+			            \log \pi_\theta(a_t^i| A, \theta_a)                                             \\
+			            \widehat{\nabla_{\theta_b} J} & = G(\tau) \sum_{t : s_t = B}^T\nabla_{\theta_b}
+			            \log \pi_\theta(a_t^i| B, \theta_b)
+		            \end{align}
+		            We can plug this into our updates for each part of $\theta$ and obtain
+		            \begin{align}
+			            \theta^{t+1}_a & \leftarrow \theta^t_a + \alpha G(\tau) \sum_{t : s_t
+				            = A}^T\nabla_{\theta_a} \log \pi_\theta(a_t^i| A, \theta_a)
+			            \label{eq:reinforce_a_update}                                         \\
+			            \theta^{t+1}_b & \leftarrow \theta^t_b + \alpha G(\tau) \sum_{t : s_t
+				            = B}^T\nabla_{\theta_b} \log \pi_\theta(a_t^i| B,
+			            \theta_b),\label{eq:reinforce_b_update}
+		            \end{align}
+		            where the trajectory $\tau$ will be different for each episode.
+		      \item When using REINFORCE/G(MO)MDP, we now have a different general estimate of the
+		            gradient of the expectation of the return, $\widehat{\nabla J},$ given by
+		            \begin{equation}
+			            \widehat{\nabla_\theta J} = \frac{1}{N} \sum^N_{i=1}\left(\sum_{t=1}^T r_t
+			            \sum_{t'=1}^t\nabla_\theta \log \pi_\theta (a_{t'} | s_{t'})\right),
+		            \end{equation}
+		            where $r_t$ is the reward at time $t$ for episode $i$. We can apply the same
+		            reasoning used in \ref{8.4.1a} and obtain the update rule per episode for each
+		            split of $\theta$:
+		            \begin{align}
+			            \theta^{t+1}_a & \leftarrow \theta^t_a + \alpha \sum_{t=1}^T r_t \sum_{t':s_{t'}
+			            = A}^{t^*: s_{t^*} = A, t' \leq t} = \nabla_{\theta_a} \log \pi_\theta (a_{t'} | A,
+			            \theta_a)\label{eq:gpomdp_a_update}                                              \\
+			            \theta^{t+1}_b & \leftarrow \theta^t_b + \alpha \sum_{t=1}^T r_t \sum_{t':s_{t'}
+			            = B}^{t^*: s_{t^*} = B, t' \leq t}\nabla_{\theta_b} \log \pi_\theta (a_{t'} | B,
+			            \theta_b)\label{eq:gpomdp_b_update}
+		            \end{align}
+		            where we define $t^* = \max(t')$ and the rewards $r_t$ will be different depending
+		            on the episode.
+	      \end{enumerate}
 	\item hello world
 	\item hello world
 	\item hello world
