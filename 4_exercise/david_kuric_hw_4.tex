@@ -251,8 +251,37 @@
 	      that using REINFORCE/G(PO)MDP, the latter has less variance around the true value of the
 	      gradient. Intuitively, this is because in G(PO)MDP we only consider relevant rewards, as
 	      opposed to classical REINFORCE where we consider the return for the whole episode. This
-	      leads to less accumulation of variance from the sampled rewards.
-	      % TODO?
+	      leads to less accumulation of variance from the sampled rewards. We can see this
+	      mathematically by comparing the variances of the two approaches. For classical reinforce, we
+	      have
+	      \begin{align*}
+		      \text{Var} \left[\nabla_\theta J(\theta) \right] & \approx \text{Var} \left[ \left(
+			      \sum_{k=0}^T R(S_k, A_k) \right) \sum_{t=0}^T \nabla_\theta \log \pi_\theta(A_t | S_t)
+			      \right]
+		      \\
+		                                                       & = \text{Var}\left[\sum_{t=0}^T\left(\sum_{k=0}^T
+			      R\left(S_k, A_k\right)\right) \nabla_\theta \log \pi_\theta\left(A_t \mid
+			      S_t\right)\right]
+		      \\
+		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
+			      R\left(S_k, A_k\right) \nabla_\theta \log \pi_\theta\left(A_t \mid S_t\right)\right]
+		      \\
+		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
+			      Z_{tk}\right], \numberthis \label{eq:classical_var}
+	      \end{align*}
+	      where we have defined the term $Z_{tk} = R(S_k, A_k) \nabla_\theta \log \pi_\theta(A_t,
+		      S_t)$. Similarly for G(PO)MDP, we have:
+	      \begin{align*}
+		      \text{Var}\left[\nabla_\theta J(\theta)\right] & \approx
+		      \text{Var}\left[\sum_{t=0}^T\nabla_\theta \log \pi_\theta\left(A_t \mid
+		      S_t\right)\sum_{k=t}^T R\left(S_k, A_k\right)\right]                                        \\
+		                                                     & = \text{Var}\left[\sum_{t=0}^T\sum_{k=t}^T
+		      R\left(S_k, A_k\right) \nabla_\theta \log \pi_\theta\left(A_t \mid S_t\right)\right]        \\
+		                                                     & = \text{Var}\left[\sum_{t=0}^T\sum_{k=t}^T
+			      Z_{tk}\right], \numberthis \label{eq:gpomdp_var}
+	      \end{align*}
+
+
 	\item A variation of G(PO)MDP which leverages the value function can be devised by subtracting an
 	      estimate of the value function from the return at each time step. Here the value function
 	      serves as a baseline for the reward, so to reduce variance in the gradient estimate.
