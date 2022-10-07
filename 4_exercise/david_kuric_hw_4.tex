@@ -260,17 +260,21 @@
 			      \right]
 		      \\
 		                                                       & = \text{Var}\left[\sum_{t=0}^T\left(\sum_{k=0}^T
-			      R\left(S_k, A_k\right)\right) \nabla_\theta \log \pi_\theta\left(A_t \mid
-			      S_t\right)\right]
-		      \\
+			      R\left(S_k,A_k\right)\right)
+			      \nabla_\theta \log \pi_\theta\left(A_t
+		      \mid S_t\right)\right]                                                                              \\
 		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
-			      R\left(S_k, A_k\right) \nabla_\theta \log \pi_\theta\left(A_t \mid S_t\right)\right]
-		      \\
+			      R\left(S_k, A_k\right) \nabla_\theta
+			      \log \pi_\theta\left(A_t \mid
+		      S_t\right)\right]                                                                                   \\
 		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
-			      Z_{tk}\right], \numberthis \label{eq:classical_var}
+		      Z_{tk}\right]                                                                                       \\
+		                                                       & = \sum_{t=0}^T \sum_{k=0}^T
+		      \text{Var}\left[Z_{tk}\right]+ 2 \sum_{0 \leq t \leq t' \leq T} \sum_{0 \leq k \leq k'
+			      \leq T} \text{Cov}\left[Z_{t k}, Z_{t' k'}\right], \numberthis \label{eq:classical_var}
 	      \end{align*}
 	      where we have defined the term $Z_{tk} = R(S_k, A_k) \nabla_\theta \log \pi_\theta(A_t,
-		      S_t)$. Similarly for G(PO)MDP, we have:
+		      S_t)$, and applied Bienaymé's identity on the last line. Similarly for G(PO)MDP, we have:
 	      \begin{align*}
 		      \text{Var}\left[\nabla_\theta J(\theta)\right] & \approx
 		      \text{Var}\left[\sum_{t=0}^T\nabla_\theta \log \pi_\theta\left(A_t \mid
@@ -278,14 +282,20 @@
 		                                                     & = \text{Var}\left[\sum_{t=0}^T\sum_{k=t}^T
 		      R\left(S_k, A_k\right) \nabla_\theta \log \pi_\theta\left(A_t \mid S_t\right)\right]        \\
 		                                                     & = \text{Var}\left[\sum_{t=0}^T\sum_{k=t}^T
-			      Z_{tk}\right], \numberthis \label{eq:gpomdp_var}
+		      Z_{tk}\right]                                                                               \\
+		                                                     & = \sum_{t=0}^T \sum_{k=t}^T
+		      \text{Var}\left[Z_{tk}\right]+ 2 \sum_{0 \leq t \leq t' \leq T} \sum_{t \leq k \leq k'
+			      \leq T} \text{Cov}\left[Z_{t k}, Z_{t' k'}\right]. \numberthis \label{eq:gpomdp_var}
 	      \end{align*}
+	      We see that equations (\ref{eq:classical_var}) and (\ref{eq:gpomdp_var}) are identical
+	      except for the summation bounds, which encapsulate less terms in the G(PO)MDP case. Because
+	      the terms in the summations are variances, and variance is a non-negative quantity, we see
+	      that the variance of the G(PO)MDP gradient is less than that of the classical REINFORCE.
 
 
 	\item A variation of G(PO)MDP which leverages the value function can be devised by subtracting an
 	      estimate of the value function from the return at each time step. Here the value function
 	      serves as a baseline for the reward, so to reduce variance in the gradient estimate.
-	      % TODO?
 \end{enumerate}
 
 
