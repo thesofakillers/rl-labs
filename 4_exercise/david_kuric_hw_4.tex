@@ -209,7 +209,7 @@
 			            A, \theta_a)\right]                                         \\
 			            \theta^1_b & \leftarrow \theta^0_b + \alpha \cdot 350 \cdot
 			            \nabla_{\theta_b} \log \pi_\theta(2| B, \theta_b)           \\
-			            \theta^1_b & \leftarrow \theta^0_b - \alpha \cdot 120 \cdot
+			            \theta^2_b & \leftarrow \theta^1_b - \alpha \cdot 120 \cdot
 			            \nabla_{\theta_b} \log \pi_\theta(1| B, \theta_b)
 		            \end{align}
 		      \item When using REINFORCE/G(MO)MDP, we now have a different general estimate of the
@@ -242,8 +242,11 @@
 			            \bigl[30 \cdot \log \pi (1 | B, \theta_B) \bigr]
 		            \end{align}
 	      \end{enumerate}
-	\item hello world
-	      % TODO?
+	\item None of the updates to $\theta_a$ will have an impact on the probability of taking actions
+	      in state $B$, as this is completely governed by $\theta_b$. The updates to $\theta_b$ under
+	      classical REINFORCE will have a large impact on the probability of taking actions in state
+	      $B$, while the updates to $\theta_b$ under REINFORCE/G(MO)MDP will have a smaller impact, as
+	      can be noted by the smaller coefficients preceding the gradient.
 	\item G(PO)MDP will lead to a better update than Classical REINFORCE because the latter has higher
 	      variance in its estimates. When using the same learning rate, this makes it more likely for
 	      Classical REINFORCE to overshoot the optimal update iteration.
@@ -257,16 +260,12 @@
 	      \begin{align*}
 		      \text{Var} \left[\nabla_\theta J(\theta) \right] & \approx \text{Var} \left[ \left(
 			      \sum_{k=0}^T R(S_k, A_k) \right) \sum_{t=0}^T \nabla_\theta \log \pi_\theta(A_t | S_t)
-			      \right]
-		      \\
+		      \right]                                                                                             \\
 		                                                       & = \text{Var}\left[\sum_{t=0}^T\left(\sum_{k=0}^T
-			      R\left(S_k,A_k\right)\right)
-			      \nabla_\theta \log \pi_\theta\left(A_t
-		      \mid S_t\right)\right]                                                                              \\
-		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
-			      R\left(S_k, A_k\right) \nabla_\theta
-			      \log \pi_\theta\left(A_t \mid
+			      R\left(S_k,A_k\right)\right)\nabla_\theta \log \pi_\theta\left(A_t \mid
 		      S_t\right)\right]                                                                                   \\
+		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
+		      R\left(S_k, A_k\right) \nabla_\theta \log \pi_\theta\left(A_t \mid S_t\right)\right]                \\
 		                                                       & = \text{Var}\left[\sum_{t=0}^T\sum_{k=0}^T
 		      Z_{tk}\right]                                                                                       \\
 		                                                       & = \sum_{t=0}^T \sum_{k=0}^T
