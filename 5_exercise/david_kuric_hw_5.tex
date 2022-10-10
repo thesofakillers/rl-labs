@@ -1,0 +1,97 @@
+\documentclass{article}
+
+\usepackage[top=1in,left=1.5in,right=1.5in,bottom=1.5in]{geometry}
+
+\usepackage{pgfplots}
+\usetikzlibrary{angles, arrows.meta, calc, quotes}
+\pgfplotsset{width=0.8\textwidth,compat=1.18}
+
+\usepackage{subcaption}
+
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+\let\rfb\reflectbox
+\graphicspath{ {images} }
+
+\usepackage{cancel}
+
+\usepackage{mathtools}
+
+\usepackage{nicefrac}
+\newcommand{\flippedfrac}[2]{\rfb{\nicefrac{\rfb{#2}}{\rfb{#1}}}}
+
+
+
+\usepackage{amsthm}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+}
+
+
+\usepackage{titling}
+\title{Exercise Set 5 - Reinforcement Learning}
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+\makeatother
+\subtitle{Advanced policy-based methods}
+\author{Giulio Starace - 13010840}
+\date{\today}
+
+\begin{document}
+\maketitle
+\setcounter{section}{9}
+\setcounter{subsection}{3}
+\subsection{Homework: Limits of policy gradients}
+\begin{enumerate}
+	\item hello world
+	      \begin{enumerate}
+		      \item hello world
+		      \item hello world
+	      \end{enumerate}
+	\item hello world
+	\item hello world
+\end{enumerate}
+
+\subsection{Homework: Coding Assignment - Policy Gradients}
+\begin{enumerate}
+	\item Two advantages of using policy based methods over value based methods are:
+	      \begin{enumerate}
+		      \item Policy based methods can more easily be applied to problems with large and/or
+		            continuous state spaces. Unlike value based methods, policy based methods do not
+		            need to compute the value of each state, and furthermore do not need to find a way
+		            to compute a maximum over all possible state values, which can be prohibitively
+		            expensive. Policy based methods circumvent this issue by directly adjusting the
+		            parameters of the policy function, directly estimating the action probability
+		            distribution for a given input state.
+		      \item Policy based methods provide a natural way of learning stochastic policies. In value
+		            based methods, stochasticity is typically manually governed by the $\epsilon$
+		            hyperparameter used in $epsilon$-greedy policies. In policy based methods, the optimal
+		            stochasticity with arbitrary action probabilities can be learned.
+	      \end{enumerate}
+	\item Coding answers have been submitted on codegra under the group ``stalwart cocky sawly".
+\end{enumerate}
+
+\setcounter{section}{10}
+\setcounter{subsection}{2}
+\subsection{Homework: Update Directions}
+\begin{enumerate}
+	\item hello world
+	\item hello world
+	\item hello world
+\end{enumerate}
+
+\end{document}
+
