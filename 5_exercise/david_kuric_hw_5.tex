@@ -56,11 +56,67 @@
 \setcounter{subsection}{3}
 \subsection{Homework: Limits of policy gradients}
 \begin{enumerate}
-	\item hello world
+	\item Given our policy:
+	      \begin{equation}
+		      \pi(a|s, \theta)=\frac{1}{\sigma\left(\theta_\sigma\right) \sqrt{2 \pi}} \exp
+		      \left(-\frac{\left(a-\mu\left(\theta_\mu\right)\right)^2}{2
+				      \sigma\left(\theta_\sigma\right)^2}\right),
+	      \end{equation}
+	      We can compute $\nabla \log \pi(a|s, \theta)$ w.r.t. $\theta_\mu$ and $\theta_\sigma$ by
+	      applying the chain rule. Let $\log \pi(a|s, \theta)$ be $L(\theta)$, then w.r.t. a given
+	      param $\theta_i$ we have:
+	      \begin{align*}
+		      \nabla_{\theta_i} \log \pi(a|s, \theta) & = \nabla_{\theta_i} L(\theta)                   \\
+		                                              & = \frac{\partial L(\theta)}{\partial \pi} \cdot
+		      \frac{\partial \pi(a|s,\theta)}{\partial \theta_i}.
+	      \end{align*}
+	      When $\theta_i = \theta_\mu$, we have:
+	      \begin{align*}
+		      \nabla_{\theta_\mu} \log \pi(a|s, \theta) & = \frac{\partial L(\theta)}{\partial \pi,
+		      } \cdot \frac{\partial \pi(a|s,\theta)}{\partial \theta_\mu}                               \\
+		                                                & =  \frac{\partial L(\theta)}{\partial \pi(a|s,
+			      \theta)} \cdot \frac{\partial \pi(a|s,\theta)}{\partial \mu} \cdot
+		      \frac{\partial{\mu(\theta_\mu)}}{\partial \theta_\mu}. \numberthis \label{eq:grad_mu}
+	      \end{align*}
+	      When $\theta_i = \theta_\sigma$, we have:
+	      \begin{align*}
+		      \nabla_{\theta_\sigma} \log \pi(a|s, \theta) & = \frac{\partial L(\theta)}{\partial \pi,
+		      } \cdot \frac{\partial \pi(a|s,\theta)}{\partial \theta_\sigma}                               \\
+		                                                   & =  \frac{\partial L(\theta)}{\partial \pi(a|s,
+			      \theta)} \cdot \frac{\partial \pi(a|s,\theta)}{\partial \sigma} \cdot
+		      \frac{\partial{\sigma(\theta_\sigma)}}{\partial \theta_\sigma}. \numberthis \label{eq:grad_sigma}
+	      \end{align*}
+	      The first two terms of equations (\ref{eq:grad_mu}) and (\ref{eq:grad_sigma}) will be the
+	      same regardless of parametrization. We get
+	      \begin{align}
+		      \frac{\partial L(\theta)}{\partial \theta} & = \frac{1}{\pi} \label{eq:dl_dpi},
+		      \\ \frac{\partial \pi(a|s,\theta)}{\partial \mu}    & = \frac{a-\mu(\theta_\mu)}{\sqrt{2
+				      \pi } \sigma(\theta_\sigma) ^3} \exp\left[-\frac{(a-\mu(\theta_\mu))^2}{2
+				      \sigma(\theta_\sigma) ^2}\right], \label{eq:dpi_dmu}
+		      \\ \frac{\partial \pi(a|s,\theta)}{\partial \sigma} & = \frac{
+			      (a-\mu(\theta_\mu))^2-\sigma(\theta_\sigma) ^2}{\sqrt{2 \pi } \sigma(\theta_\sigma) ^4}
+		      \exp\left[-\frac{(a-\mu(\theta_\mu) )^2}{2 \sigma(\theta_\sigma) ^2}\right].
+		      \label{eq:dpi_dsigma}
+	      \end{align}
+	      We are then left with determining the final terms of equations (\ref{eq:grad_mu}) and
+	      (\ref{eq:grad_sigma}) for different parametrizations.
 	      \begin{enumerate}
-		      \item hello world
+		      \item When $\mu(\theta_\mu) = \theta_\mu$ and $\sigma(\theta_\sigma) = \exp(\theta_\sigma)$, we
+		            get
+		            \begin{align}
+			            \frac{\partial \mu(\theta_\mu)}{\partial \theta_\mu}           & = 1                    \\
+			            \frac{\partial{\sigma(\theta_\sigma)}}{\partial \theta_\sigma} & = \exp(\theta_\sigma).
+		            \end{align}
+		            We can plug this into equations (\ref{eq:grad_mu}) and (\ref{eq:grad_sigma}) along
+		            with the updated terms from previously and get:
+		            \begin{align}
+
+		            \end{align}
 		      \item hello world
 	      \end{enumerate}
+	      PS: I can't help but comment that this answer was extremely tedious to compute and write,
+	      and amounted mostly to busy work, particularly factoring in the \LaTeX~ typesetting. Please
+	      consider this feedback for future assignments.
 	\item hello world
 	\item hello world
 \end{enumerate}
