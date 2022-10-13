@@ -168,13 +168,13 @@
 		            \end{align*}
 		            We can finish plugging in values for the update and get:
 		            \begin{align}
-			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.4875,             \\
+			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.05625,             \\
 			            \theta_\sigma' & =  \log(4) - 0.3 \cdot 0.4375 = 1.2550443611.
 		            \end{align}
 		            The new policy $\mathcal{N}(\sigma(\theta_\mu'), \sigma(\theta_\sigma'))$ is
 		            \begin{equation}
 			            \pi(a|s, \theta) = \frac{1}{1.2550443611 \cdot \sqrt{2 \pi}}\exp\left[-\frac{(3
-					            - 0.4875)^2}{2 \cdot 1.2550443611^2}\right]
+					            - 0.05625)^2}{2 \cdot 1.2550443611^2}\right]
 		            \end{equation}
 		      \item When $\mu(\theta_\mu) = \theta_\mu = 0$ and $\sigma(\theta_\sigma) = \theta_\sigma^2
 			            = 4$, we get that $\theta_\mu = 0$ and $\theta_\sigma = \pm ~ 2$. We can plug these
@@ -188,13 +188,13 @@
 		            \end{align*}
 		            We can finish plugging in values for the update and get:
 		            \begin{align}
-			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.4875,               \\
+			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.05625,               \\
 			            \theta_\sigma' & =  \pm~ 2 \mp~ 0.3 \cdot 0.4375 = \pm~ 1.86875.
 		            \end{align}
 		            The new policy $\mathcal{N}(\sigma(\theta_\mu'), \sigma(\theta_\sigma'))$ is
 		            \begin{equation}
 			            \pi(a|s, \theta) = \pm~ \frac{1}{1.86875 \cdot \sqrt{2 \pi}}\exp\left[-\frac{(3
-					            - 0.4875)^2}{2 \cdot 1.86875^2}\right]
+					            - 0.05625)^2}{2 \cdot 1.86875^2}\right]
 		            \end{equation}
 	      \end{enumerate}
 	\item As can be noted from our results, a drawback to policy gradients is that different
