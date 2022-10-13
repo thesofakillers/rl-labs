@@ -206,7 +206,10 @@
 	      parametrizations. For instance, if we were to take the new $\sigma$ value obtained under the
 	      second parametrization and use it to define our policy under the first parametrization, our
 	      new policy would be drastically different from what we started (Our $\sigma$ would change from
-	      4 to $\approx 6.5$ rather than from 4 to $\approx 3.5$).
+	      4 to $\approx 6.5$ rather than from 4 to $\approx 3.5$). Such large changes in policy are
+	      undesirable since they can lead to large changes in the agent's behavior, which if in the
+	      wrong direction, can cause situations where the agent is unable to recover from the state
+	      space it ends up in.
 \end{enumerate}
 % PS: I can't help but comment that parts 1 and 2 of this question were extremely tedious to answer,
 % and amounted mostly to busy work (very little RL knowledge was being assessed here), particularly
