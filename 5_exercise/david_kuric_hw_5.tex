@@ -168,7 +168,7 @@
 		            \end{align*}
 		            We can finish plugging in values for the update and get:
 		            \begin{align}
-			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.05625,             \\
+			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.05625,            \\
 			            \theta_\sigma' & =  \log(4) - 0.3 \cdot 0.4375 = 1.2550443611.
 		            \end{align}
 		            The new policy $\mathcal{N}(\sigma(\theta_\mu'), \sigma(\theta_\sigma'))$ is
@@ -188,7 +188,7 @@
 		            \end{align*}
 		            We can finish plugging in values for the update and get:
 		            \begin{align}
-			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.05625,               \\
+			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.05625,              \\
 			            \theta_\sigma' & =  \pm~ 2 \mp~ 0.3 \cdot 0.4375 = \pm~ 1.86875.
 		            \end{align}
 		            The new policy $\mathcal{N}(\sigma(\theta_\mu'), \sigma(\theta_\sigma'))$ is
@@ -197,15 +197,22 @@
 					            - 0.05625)^2}{2 \cdot 1.86875^2}\right]
 		            \end{equation}
 	      \end{enumerate}
-	\item As can be noted from our results, a drawback to policy gradients is that different
-	      parametrizations will lead to the same gradients.
+	\item A drawback of a simple policy gradient like the one we have applied is that it acts in the
+	      parameter space, considering the gradient change in parameters. This is not necessarily what
+	      we care about, as we are more-so interested in directly updating the policy. We see this in
+	      our work, where the updates are kept small and the same gradients are found for both parameters,
+	      leading to similar update results for our $\mu$ and $\sigma$. However, small changes in
+	      parameters does not guarantee small changes in policy, particularly under different
+	      parametrizations. For instance, if we were to take the new $\sigma$ value obtained under the
+	      second parametrization and use it to define our policy under the first parametrization, our
+	      new policy would be drastically different from what we started (Our $\sigma$ would change from
+	      4 to $\approx 6.5$ rather than from 4 to $\approx 3.5$).
 \end{enumerate}
-
-PS: I can't help but comment that parts 1 and 2 of this question were extremely tedious to answer,
-and amounted mostly to busy work (very little RL knowledge was being assessed here), particularly
-factoring in the \LaTeX~ typesetting. Furthermore, because of the tediousness in parts 1 and 2, they
-are very prone to error, potentially leading to erroneous results which could negatively influence
-the discussion in 3 (mistake propagation). Please consider this feedback for future assignments.
+% PS: I can't help but comment that parts 1 and 2 of this question were extremely tedious to answer,
+% and amounted mostly to busy work (very little RL knowledge was being assessed here), particularly
+% factoring in the \LaTeX~ typesetting. Furthermore, because of the tediousness in parts 1 and 2, they
+% are very prone to error, potentially leading to erroneous results which could negatively influence
+% the discussion in 3 (mistake propagation). Please consider this feedback for future assignments.
 \subsection{Homework: Coding Assignment - Policy Gradients}
 \begin{enumerate}
 	\item Two advantages of using policy based methods over value based methods are:
