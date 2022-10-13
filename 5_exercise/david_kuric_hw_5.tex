@@ -89,38 +89,123 @@
 	      The first two terms of equations (\ref{eq:grad_mu}) and (\ref{eq:grad_sigma}) will be the
 	      same regardless of parametrization. We get
 	      \begin{align}
-		      \frac{\partial L(\theta)}{\partial \theta} & = \frac{1}{\pi} \label{eq:dl_dpi},
+		      \frac{\partial L(\theta)}{\partial \theta} & = \frac{1}{\pi(a|s,\theta)} \label{eq:dl_dpi},
 		      \\ \frac{\partial \pi(a|s,\theta)}{\partial \mu}    & = \frac{a-\mu(\theta_\mu)}{\sqrt{2
 				      \pi } \sigma(\theta_\sigma) ^3} \exp\left[-\frac{(a-\mu(\theta_\mu))^2}{2
-				      \sigma(\theta_\sigma) ^2}\right], \label{eq:dpi_dmu}
+				      \sigma(\theta_\sigma) ^2}\right] = \frac{a
+			      - \mu(\theta_\mu)}{\sigma(\theta_\sigma)^2} \pi(a|s,\theta), \label{eq:dpi_dmu}
 		      \\ \frac{\partial \pi(a|s,\theta)}{\partial \sigma} & = \frac{
 			      (a-\mu(\theta_\mu))^2-\sigma(\theta_\sigma) ^2}{\sqrt{2 \pi } \sigma(\theta_\sigma) ^4}
-		      \exp\left[-\frac{(a-\mu(\theta_\mu) )^2}{2 \sigma(\theta_\sigma) ^2}\right].
-		      \label{eq:dpi_dsigma}
+		      \exp\left[-\frac{(a-\mu(\theta_\mu) )^2}{2 \sigma(\theta_\sigma) ^2}\right] = \frac{
+			      (a-\mu(\theta_\mu))^2-\sigma(\theta_\sigma) ^2}{\sigma(\theta_\sigma)^3}
+		      \pi(a|s,\theta).\label{eq:dpi_dsigma}
 	      \end{align}
-	      We are then left with determining the final terms of equations (\ref{eq:grad_mu}) and
-	      (\ref{eq:grad_sigma}) for different parametrizations.
+	      Equations (\ref{eq:grad_mu}) and (\ref{eq:grad_sigma}) can be then further simplified as:
+	      \begin{align}
+		      \nabla_{\theta_\mu} \log \pi(a|s, \theta)    & = \frac{a
+			      - \mu(\theta_\mu)}{\sigma(\theta_\sigma)^2} \cdot
+		      \frac{\partial{\mu(\theta_\mu)}}{\partial \theta_\mu}. \label{eq:grad_mu_simple} \\
+		      \nabla_{\theta_\sigma} \log \pi(a|s, \theta) & = \frac{
+			      (a-\mu(\theta_\mu))^2-\sigma(\theta_\sigma) ^2}{\sigma(\theta_\sigma)^3}\cdot
+		      \frac{\partial{\sigma(\theta_\sigma)}}{\partial \theta_\sigma}.
+		      \label{eq:grad_sigma_simple}
+	      \end{align}
+	      We are then left with determining the final terms of equations (\ref{eq:grad_mu_simple}) and
+	      (\ref{eq:grad_sigma_simple}) for different parametrizations.
 	      \begin{enumerate}
 		      \item When $\mu(\theta_\mu) = \theta_\mu$ and $\sigma(\theta_\sigma) = \exp(\theta_\sigma)$, we
 		            get
 		            \begin{align}
-			            \frac{\partial \mu(\theta_\mu)}{\partial \theta_\mu}           & = 1                    \\
-			            \frac{\partial{\sigma(\theta_\sigma)}}{\partial \theta_\sigma} & = \exp(\theta_\sigma).
+			            \frac{\partial \mu(\theta_\mu)}{\partial \theta_\mu} & = 1,
+			            \\ \frac{\partial{\sigma(\theta_\sigma)}}{\partial \theta_\sigma}
+			                                                                 & = \exp(\theta_\sigma).
 		            \end{align}
-		            We can plug this into equations (\ref{eq:grad_mu}) and (\ref{eq:grad_sigma}) along
-		            with the updated terms from previously and get:
+		            We can plug this into equations (\ref{eq:grad_mu_simple}) and
+		            (\ref{eq:grad_sigma_simple}) along with the updated terms from previously and get:
 		            \begin{align}
-
+			            \nabla_{\theta_\mu} \log \pi(a|s, \theta)
+			                                                         & = \frac{a-\theta_\mu}{\exp^2(\theta_\sigma)} \label{eq:grad_mu_first} \\
+			            \nabla_{\theta_\sigma} \log \pi(a|s, \theta) & = \frac{
+				            (a-\theta_\mu)^2-\exp^2(\theta_\sigma) }{\exp^2(\theta_\sigma)}
+			            \label{eq:grad_sigma_first}.
 		            \end{align}
-		      \item hello world
+		      \item When $\mu(\theta_\mu) = \theta_\mu$ and $\sigma(\theta_\sigma) = \theta_\sigma^2$,
+		            we get
+		            \begin{align}
+			            \frac{\partial \mu(\theta_\mu)}{\partial \theta_\mu} & = 1,
+			            \\ \frac{\partial{\sigma(\theta_\sigma)}}{\partial \theta_\sigma}
+			                                                                 & = 2 \theta_\sigma.
+		            \end{align}
+		            We can once again plug this into equations (\ref{eq:grad_mu_simple}) and
+		            (\ref{eq:grad_sigma_simple}) along with the updated terms from previously and get:
+		            \begin{align}
+			            \nabla_{\theta_\mu} \log \pi(a|s, \theta)
+			                                                         & = \frac{a-\theta_\mu}{\theta_\sigma^4}
+			            \label{eq:grad_mu_second}                                                             \\
+			            \nabla_{\theta_\sigma} \log \pi(a|s, \theta) & = 2 \cdot
+			            \frac{(a-\theta_\mu)^2-\theta_\sigma^4}{\theta_\sigma^5} \label{eq:grad_sigma_second}.
+		            \end{align}
 	      \end{enumerate}
-	      PS: I can't help but comment that this answer was extremely tedious to compute and write,
-	      and amounted mostly to busy work, particularly factoring in the \LaTeX~ typesetting. Please
-	      consider this feedback for future assignments.
-	\item hello world
-	\item hello world
+	\item The policy gradient update for a given parameter $\theta_i$ can be computed with
+	      \begin{equation}
+		      \theta_i'=  \theta_i + \alpha \cdot r \cdot \nabla_{\theta_i} \log \pi(a_t|s_t, \theta),
+	      \end{equation}
+	      where $r$ is the reward and $\alpha$ is the learning rate. Given $r = 3$ and $\alpha = 0.1$,
+	      we write
+	      \begin{equation}
+		      \theta_i'=  \theta_i + 0.3 \cdot \nabla_{\theta_i} \log \pi(a_t|s_t, \theta).
+	      \end{equation}
+	      \begin{enumerate}
+		      \item When $\mu(\theta_\mu) = \theta_\mu = 0$ and $\sigma(\theta_\sigma)
+			            = \exp(\theta_\sigma) = 4$, we get that $\theta_\mu = 0$ and $\theta_\sigma
+			            = \log(4)$. We can plug these values into equations (\ref{eq:grad_mu_first}) and
+		            (\ref{eq:grad_sigma_first}), along with the given $a=3$ and get:
+		            \begin{align*}
+			            \nabla_{\theta_\mu} \log \pi(a|s, \theta)    & = \frac{3-0}{\exp^2(\log(4))}
+			            = \frac{3}{16} = 0.1875,                                                     \\
+			            \nabla_{\theta_\sigma} \log \pi(a|s, \theta) & = \frac{
+				            (3-0)^2-\exp^2(\log(4)) }{\exp^2(\log(4)))} = \frac{9 - 16}{16} = -0.4375.
+		            \end{align*}
+		            We can finish plugging in values for the update and get:
+		            \begin{align}
+			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.4875,             \\
+			            \theta_\sigma' & =  \log(4) - 0.3 \cdot 0.4375 = 1.2550443611.
+		            \end{align}
+		            The new policy $\mathcal{N}(\sigma(\theta_\mu'), \sigma(\theta_\sigma'))$ is
+		            \begin{equation}
+			            \pi(a|s, \theta) = \frac{1}{1.2550443611 \cdot \sqrt{2 \pi}}\exp\left[-\frac{(3
+					            - 0.4875)^2}{2 \cdot 1.2550443611^2}\right]
+		            \end{equation}
+		      \item When $\mu(\theta_\mu) = \theta_\mu = 0$ and $\sigma(\theta_\sigma) = \theta_\sigma^2
+			            = 4$, we get that $\theta_\mu = 0$ and $\theta_\sigma = \pm ~ 2$. We can plug these
+		            values into equations (\ref{eq:grad_mu_second}) and (\ref{eq:grad_sigma_second}), along
+		            with the given $a=3$ and get:
+		            \begin{align*}
+			            \nabla_{\theta_\mu} \log \pi(a|s, \theta)    & = \frac{3-0}{(\pm~2)^4}
+			            = \frac{3}{16} = 0.1875,                                               \\
+			            \nabla_{\theta_\sigma} \log \pi(a|s, \theta) & = 2 \cdot \frac{
+				            (3-0)^2-(\pm~2)^4 }{(\pm ~2)^5} = \pm 2 \cdot \frac{9 - 16}{32} = \mp 0.4375
+		            \end{align*}
+		            We can finish plugging in values for the update and get:
+		            \begin{align}
+			            \theta_\mu'    & =  0 + 0.3 \cdot 0.1875 = 0.4875,               \\
+			            \theta_\sigma' & =  \pm~ 2 \mp~ 0.3 \cdot 0.4375 = \pm~ 1.86875.
+		            \end{align}
+		            The new policy $\mathcal{N}(\sigma(\theta_\mu'), \sigma(\theta_\sigma'))$ is
+		            \begin{equation}
+			            \pi(a|s, \theta) = \pm~ \frac{1}{1.86875 \cdot \sqrt{2 \pi}}\exp\left[-\frac{(3
+					            - 0.4875)^2}{2 \cdot 1.86875^2}\right]
+		            \end{equation}
+	      \end{enumerate}
+	\item As can be noted from our results, a drawback to policy gradients is that different
+	      parametrizations will lead to the same gradients.
 \end{enumerate}
 
+PS: I can't help but comment that parts 1 and 2 of this question were extremely tedious to answer,
+and amounted mostly to busy work (very little RL knowledge was being assessed here), particularly
+factoring in the \LaTeX~ typesetting. Furthermore, because of the tediousness in parts 1 and 2, they
+are very prone to error, potentially leading to erroneous results which could negatively influence
+the discussion in 3 (mistake propagation). Please consider this feedback for future assignments.
 \subsection{Homework: Coding Assignment - Policy Gradients}
 \begin{enumerate}
 	\item Two advantages of using policy based methods over value based methods are:
