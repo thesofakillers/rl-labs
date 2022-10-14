@@ -202,7 +202,7 @@
 	      we care about, as we are more-so interested in directly updating the policy. We see this in
 	      our work, where the updates are kept small and the same gradients are found for both parameters,
 	      leading to similar update results for our $\mu$ and $\sigma$. However, small changes in
-	      parameters does not guarantee small changes in policy, particularly under different
+	      parameters do not guarantee small changes in policy, particularly under different
 	      parametrizations. For instance, if we were to take the new $\sigma$ value obtained under the
 	      second parametrization and use it to define our policy under the first parametrization, our
 	      new policy would be drastically different from what we started (Our $\sigma$ would change from
@@ -211,11 +211,6 @@
 	      wrong direction, can cause situations where the agent is unable to recover from the state
 	      space it ends up in.
 \end{enumerate}
-% PS: I can't help but comment that parts 1 and 2 of this question were extremely tedious to answer,
-% and amounted mostly to busy work (very little RL knowledge was being assessed here), particularly
-% factoring in the \LaTeX~ typesetting. Furthermore, because of the tediousness in parts 1 and 2, they
-% are very prone to error, potentially leading to erroneous results which could negatively influence
-% the discussion in 3 (mistake propagation). Please consider this feedback for future assignments.
 \subsection{Homework: Coding Assignment - Policy Gradients}
 \begin{enumerate}
 	\item Two advantages of using policy based methods over value based methods are:
@@ -238,11 +233,61 @@
 \setcounter{section}{10}
 \setcounter{subsection}{2}
 \subsection{Homework: Update Directions}
+The update equation for Policy Gradient is given by
+\begin{equation}
+	\theta_{t+1} = \theta_t + \alpha \nabla_{\theta} J(\theta),\label{eq:pg_update}
+\end{equation}
+where $\alpha$ is the learning rate and $J$ is the expected return. The update equation for
+Natural Policy Gradient is given by
+\begin{equation}
+	\theta_{t+1} = \theta_t + \alpha F^{-1} \nabla_{\theta_t}J(\theta_t), \label{eq:npg_update}
+\end{equation}
+where $F$ is the Fisher Information Matrix.	The update equation for Trust Region Policy Optimization (TRPO) is given by
+\begin{equation}
+	\theta_{t+1} = \theta_t + \beta F^{-1} \nabla_{\theta_t}J(\theta_t),\label{eq:trpo_update}
+\end{equation}
+Where $\beta$ is the optimal step-size which can be solved for from the following
+\begin{equation}
+	c \approx \beta^2(\nabla J)^T F (\nabla J) / 2,
+\end{equation}
+where $c$ is some user-set constant.
 \begin{enumerate}
-	\item hello world
-	\item hello world
-	\item hello world
+	\item Alice is correct, in that she would always obtain the same ordering
+	      ($\theta_{\text{scissors}} > \theta{\text{rock}} > \theta_{\text{paper}}$) if she had used TRPO
+	      instead of NPG. This is because both NPG and TRPO use essentially the same update equation, as
+	      can be noted when comparing equations (\ref{eq:npg_update}) and (\ref{eq:trpo_update}), where
+	      the only difference is $\alpha$ vs $\beta$, which are scalars and hence only affect the
+	      magnitude (not direction) of change. As such, \textit{after a single update}, none of the
+	      factors listed by Bob would make a difference.
+	\item Alice is once again correct, in that she would again always obtain the same ordering
+	      ($\theta_{\text{scissors}} > \theta{\text{rock}} > \theta_{\text{paper}}$) if she had used PG
+	      instead of NPG, this time for a slightly different reason. As we can see, the difference between
+	      equations (\ref{eq:pg_update}) and (\ref{eq:npg_update}) is that the latter introduces the
+	      additional inverted Fisher information matrix to the update. However, in our case $F$ is
+	      initialized under a uniform policy, meaning that we initialize with $\theta_{\text{scissors}}
+		      = \theta_{\text{rock}} = \theta_{\text{paper}}$. Combined with the fact that the matrix is
+	      diagonal, the Fisher information matrix is essentially a scalar, and as such, there is no
+	      difference in direction between the two updates, only a difference in step size. Because the
+	      update direction is the same, the ordering found would be the same.
+	\item NPG and TRPO update parameters in the same direction in the parameter space, which can be
+	      different from the direction PG updates parameters in. In general PG updates parameters in the
+	      direction of increasing return. NPG and TRPO instead modify their constraints to quantify how
+	      fast the \textit{policy} changes due to our update. The result is that NPG and TRPO update
+	      parameters in the direction defined as the direction of increasing return \textit{constrained}
+	      by constant change in behaviour policy. This constraint can cause the direction to differ from
+	      the direction taken by PG. Between one and the other, NPG and TRPO update in the same direction,
+	      because as discussed in question 1, the main difference between the two is the step size, which
+	      does not affect the direction of the update.
 \end{enumerate}
 
+\newpage
+
+\vspace*{\fill}
+PS: I can't help but comment that parts 1 and 2 of question 9.4 were extremely tedious to answer,
+and amounted mostly to busy work (very little RL knowledge was being assessed here), particularly
+factoring in the \LaTeX~ typesetting. Furthermore, because of the tediousness in parts 1 and 2, they
+are very prone to error, potentially leading to erroneous results which could negatively influence
+the discussion in 3 (mistake propagation). Please consider this feedback for future assignments.
+\vspace*{\fill}
 \end{document}
 
