@@ -1,0 +1,104 @@
+\documentclass{article}
+
+\usepackage{parskip}
+
+\usepackage[normalem]{ulem}
+
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+
+\usepackage[top=1in,left=1.5in,right=1.5in,bottom=1in]{geometry}
+
+\usepackage{pgfplots}
+\usetikzlibrary{angles, arrows.meta, calc, quotes}
+\pgfplotsset{width=0.8\textwidth,compat=1.18}
+
+\usepackage{subcaption}
+
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+\let\rfb\reflectbox
+\graphicspath{ {images} }
+
+\usepackage{cancel}
+
+\usepackage{mathtools}
+
+\usepackage{nicefrac}
+\newcommand{\flippedfrac}[2]{\rfb{\nicefrac{\rfb{#2}}{\rfb{#1}}}}
+
+
+
+\usepackage{amsthm}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    linkcolor=red,
+    citecolor=red
+}
+
+
+\usepackage{titling}
+\title{\vspace{-3em}Reproducible Research Report - Reinforcement Learning}
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+\makeatother
+\subtitle{Randomized Ensembled Double Q-Learning: Learning Fast Without a Model}
+\author{
+Giulio Starace - 13010840 \and
+Luuk Verheijen - 11331704
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Paper Summary}
+% Give a short summary of the paper. Include at least the problem the paper is trying to address and the main research questions, hypothe- ses, and claims made by the paper. How does the paper propose to answer these questions / evaluate these hypotheses / address these challenges?
+\citet{chen_randomized_2022} outline how the area of continuous-action Deep Reinforcement Learning (DRL) has seen success in achieving high sample-efficiency from \textit{model-based} methods. Sample efficiency (also referred to as \textit{performance}) is defined here as the number of environment interactions required in training to reach a certain level of undiscounted return in a test episode. The paper then asks: is it possible to achieve comparably high sample-efficiencies in continuous-action DRL with \textit{model-free} methods? The authors propose \textit{Randomized Ensemble Double Q-Learning (REDQ)}, a model-free method claimed to achieve similar if not superior performance when compared to a state of the art (SoTA) model-based method, MBPO \citep{janner_when_2019}, while also being more computationally efficient. 
+
+REDQ addresses sample inefficiency by using a high Update-To-Data (UTD) ratio, $G \gg 1$. This is defined as the amount of updates per interaction with the environment. To address high variance while keeping the method model-free, REDQ uses an ensemble of $N$ instances of a model-free algorithm, which can be any standard off-policy model-free algorithm. The authors choose to focus on an ensemble of SACs \citep{haarnoja_soft_2018}. Each Q-function in the ensemble is randomly and independently initialized but then updated with the same target. To reduce over-estimation bias while making use of the ensemble, the REDQ target includes a minimization over a random subset $\mathcal{M}$ of the ensemble, of size $M$. This is introduced as \textit{in-target minimization}. The authors claim that a high UTD, the ensembling and in-target minimization are the three ingredients instrumental to REDQ's success.
+
+The authors evaluate their claims by comparing sample efficiency and wall-clock time on the OpenAI Gym MuJoCo benchmark \citep{todorov_mujoco_2012, brockman_openai_2016}, performing ablations and further analyses, which we describe in more detail in Section \ref{sec:experiments}. To aid with analysis, the authors additionally consider the Q-function bias, i.e. the difference between the estimated Q-function $Q_\phi$ and the ground truth $Q_\pi$ for a given state-action pair, which they normalize to account for changes in return values during training. In particular, the authors consider the average and the standard deviation (std) of the bias across each visited state-action pair. 
+
+\section{Results and Evaluation of Experimental Choices}\label{sec:experiments}
+% Describe the experiments performed by the paper
+% Draw your conclusion: do the experiments provide enough information to answer the research questions or support the claims? Consider the suggestions in ‘Deep Reinforcement Learning that Matters’ [3], that will be discussed in class.
+
+% Some points you should pay attention to when evaluating the experiments:
+% (a) Which and how many environment(s) are the techniques tested on?
+% = MuJoCo
+% (b) What methods is the proposed technique compared to?
+% = MBPO and SAC
+% (c) How are hyperparameters set? Does this result in a fair comparison?
+% = They are set the same as in MBPO as far as possible. New parameters are tuned to be optimal. Very fair
+% (d) Which quantities are measured?
+% = undiscounted return, bias and std
+% (e) Is it clear which experimental procedure was followed? (e.g. number of runs, ...)
+% = Yes, 5 training runs everywhere, not very many. Could've been more since standard deviation is something this paper emphasizes.
+% (f) Are models trained on multiple seeds? Is it clear what the spread is between such runs?
+% Yes the 5 runs are 5 different seeds
+% (g) Are results presented clear and interpretable way?
+% Yes.
+\paragraph{Experimental Setting} The authors compare REDQ to MBPO and SAC on four environments (Hopper, Walker2d, Ant, Humanoid) of the MuJoCo benchmark, using the same evaluation protocol proposed in the MBPO paper. We evaluate this choice positively as using the same protocol reduces the chances for unfair comparisons between methods. The authors also underline that all algorithms and variants considered originate from the same codebase, which we laud for similar reasons. The codebase is publicly accessible and extremely well documented, including a 20-minute video tutorial and further details such as training time. We rate this very positively, especially in the context of reproducibility.
+\paragraph{Main Results} We assume the comparison to SAC is made to highlight differences with pre-existing model-free methods, essentially a baseline, although the authors do not directly claim this nor discuss these results. The results in Figure 1 support their claim that REDQ can achieve similar and at times superior sample-efficiency compared to MBPO, at least in the MuJoCo benchmark. We audit and trust this conclusion, particularly as it is robust across 5 independent trials. However we find a higher number of trials could've been appropriate \citep{henderson_deep_2018}. Throughout the paper, the evaluation occurs only across these four environments from a single benchmark. Perhaps a more complete investigation would've considered more environments across more benchmarks to allow the authors to make more general claims and conclusions. The same criticism applies to the comparison exclusively to MBPO from the model-based class of methods. We also find the author's justification for focusing on SAC ``for concreteness'' to be insufficient, and would have been interested to see REDQ's performance with other model-free methods, since without this, their claim about portability is not empirically verified. The authors' claim about computational efficiency is verified both theoretically in terms of parameter-count and empirically in terms of wall-clock time, with further information reported in the repository.
+\paragraph{Hyperparameter Optimization} The authors perform hyperparameter optimization and report the results in what they incorrectly refer to as ``ablations''. These are not ablations, as none of the REDQ components are removed, but instead, simply varied. The authors show that increasing ensemble size stabilizes average bias, lowers std of bias and increases performance. We verify these conclusions, although lament a lack of justification for picking an ensemble size of 20 for their final model. The authors also do not justify why they do not consider a larger range of variations. When varying $M$, the authors successfully show that higher $M$ increases std of bias but lowers average bias, this time justifying their optimal choice of $M=2$ as striking a good balance between the two quantities. Finally, the authors consider different target computation methods as opposed to target-minimization, claiming that REDQ is somewhat robust to this choice. However, we find that the implementation difference between variants here is not significant enough to fully support such a claim, especially considering that the choice of variants is not fully justified.
+\paragraph{Ablations} The paper performs ablations to answer the question of why exactly REDQ outperforms other algorithms. In the ``AVG'' ablation setting there is an ensemble and UTD of 20, but no in-target minimization. In the ``SAC-20'' setting there is only a high UTD, with no ensembling or minimization. One missing ablation is an algorithm with an ensemble and in-target minimization, but with a UTD of 1. To their credit this is included in the appendix, but not referred to as an ablation, and therefore not immediately obvious. Including this third ablation, the paper makes a convincing case that indeed all three of the ingredients of REDQ are essential in outperforming other algorithms.
+\paragraph{Feature Extraction} The authors combine REDQ with OFE (Online Feature Extraction) \citep{ota_can_2020} in REDQ-OFE. This method significantly improves performance, but does not relate to any claims in the paper. If MBPO-OFE had also been tested there might have been a meaningful conclusion from this experiment, for instance showing lower relative performance gain than REDQ-OFE. As it stands however, the isolated results from REDQ-OFE don't offer any insight into REDQ.
+\paragraph{Theoretical Analysis} Besides empirical experiments, the authors also conduct a theoretical analysis, mathematically characterizing the effect of $M$ and $N$ on the estimation error. The analysis is clear and provides additional insight beyond simple intuition to empirical results. An example of this is Theorem 1 which states that increasing $M$ lowers average bias, something that is unsurprising intuitively and empirically supported by Figure 3.
+\section{Conclusion}
+We have examined this work under a critical eye, and while we were indeed able to show some shortcomings, we find that overall the authors do a good job of defining their claims rigorously enough that the evidence they present can effectively support them. We find the accompanying theoretical analysis, appendix and code as great tools to aid with understanding and reproducibility, and hope that future papers will take inspiration from the authors' more humble presentation of their results. For future work, we would be interested in seeing the methods proposed in REDQ applied to model-based algorithms. This would provide a bigger picture view of the effects and interactions of ensembling, high UTD and in-target minimization for continuous-action DRL.
+
+\bibliography{references}
+\end{document}
